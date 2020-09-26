@@ -27,7 +27,7 @@ namespace qlkdst.Controllers
     {
         qlkdtrEntities db = new qlkdtrEntities();
 
-        public ActionResult Index(string searchString, string ngayditourb, string ngayditoure, string tencongty, string sohopdong,string nguoitao,string tuyentq, int page = 1, int pagesize = 10)
+        public ActionResult Index(string searchString, string ngayditourb, string ngayditoure, string tencongty, string sohopdong, string nguoitao, string tuyentq, int page = 1, int pagesize = 10)
         {
             var dao = new tourDAO();
 
@@ -39,12 +39,12 @@ namespace qlkdst.Controllers
                 sDaily = usr.daily;
                 sChiNhanh = usr.chinhanh;
             }
-           
+
             DateTime d1 = DateTime.Now;
             //  DateTime d2 = DateTime.Parse(DateTime.Now.ToString("yyyy") + "-12-31");
             DateTime d2 = DateTime.Parse(DateTime.Now.ToString("yyyy") + "-12-31");
             double giohientai = DateTime.Now.Hour;
-            d2 = d2.AddHours(giohientai+1);
+            d2 = d2.AddHours(giohientai + 1);
 
 
             if (Request["ngayditourb"] != null && Request["ngayditoure"] != null)
@@ -85,7 +85,7 @@ namespace qlkdst.Controllers
 
 
             //var model = dao.ListAllPageList(searchString, d1, d2, tencongty, sohopdong, sChiNhanh, sDaily, usr, page, pagesize);
-            var model = dao.ListAllPageList(searchString, d1, d2, tencongty, sohopdong, sChiNhanh, sDaily, usr,nguoitao,tuyentq, sCongTyPre, page, pagesize);
+            var model = dao.ListAllPageList(searchString, d1, d2, tencongty, sohopdong, sChiNhanh, sDaily, usr, nguoitao, tuyentq, sCongTyPre, page, pagesize);
             ViewBag.searchString = searchString;
             ViewBag.tencongty = tencongty;
             ViewBag.sohopdong = sohopdong;
@@ -361,112 +361,112 @@ namespace qlkdst.Controllers
 
                         //if (bTrung)  //da nhap  roi , bao loi
                         //{
-                            // msg.message = model.sgtcode + " - " + "Dữ liệu đã có rồi";
+                        // msg.message = model.sgtcode + " - " + "Dữ liệu đã có rồi";
+                        //msg.errorCount += 1;
+                        //msg.message += "<kttrungdulieu>Đã có code này rồi</kttrungdulieu>";
+                        //bCoLoi = true;
+                        // }
+                        // else
+                        // {
+                        if (model.batdau == null)
+                        {
+                            //msg.message += model.sgtcode + "Không để trống ngày bắt đầu <br/>";
+                            msg.message += "<ktbatdau>Không để trống ngày bắt đầu</ktbatdau>";
                             //msg.errorCount += 1;
-                            //msg.message += "<kttrungdulieu>Đã có code này rồi</kttrungdulieu>";
-                            //bCoLoi = true;
-                       // }
-                       // else
-                       // {
-                            if (model.batdau == null)
-                            {
-                                //msg.message += model.sgtcode + "Không để trống ngày bắt đầu <br/>";
-                                msg.message += "<ktbatdau>Không để trống ngày bắt đầu</ktbatdau>";
-                                //msg.errorCount += 1;
-                                bCoLoi = true;
-                            }
-                            else if (model.ketthuc == null)
-                            {
-                                //msg.message += model.sgtcode + "Không để trống ngày kết thúc <br/>";
-                                msg.message += "<ktketthuc>Không để trống ngày kết thúc</ktketthuc>";
-                                //msg.errorCount += 1;
-                                bCoLoi = true;
-                            }
-                            //else if (model.chudetour == "" || model.chudetour == null)
-                            //{
-                            //    //msg.message += model.sgtcode + "Không để trống chủ đề tour <br/>";
-                            //    msg.message += "<ktchudetour>Không để trống chủ đề tour</ktchudetour>";
-                            //    //msg.errorCount += 1;
-                            //    bCoLoi = true;
-                            //}
-                            //else if (model.tuyentq == "" || model.tuyentq == null)
-                            //{
-                            //    //msg.message += model.sgtcode + "Không để trống tuyến tham quan <br/>";
-                            //    msg.message += "<kttuyentq>Không để trống tuyến tham quan</kttuyentq>";
-                            //    //msg.errorCount += 1;
-                            //    bCoLoi = true;
-                            //}
-                            else if (model.sokhachdk == null)
-                            {
-                                // msg.message += model.sgtcode + "Không để trống số khách dự kiến <br/>";
-                                msg.message += "<ktskdk>Không để trống số khách dự kiến</ktskdk>";
-                                //msg.errorCount += 1;
-                                bCoLoi = true;
-                            }
-                            else if (model.doanhthudk == null)
-                            {
-                                //msg.message += model.sgtcode + "Không để trống doanh thu dự kiến <br/>";
-                                msg.message += "<ktdtdk>Không để trống doanh thu dự kiến</ktdtdk>";
-                                //msg.errorCount += 1;
-                                bCoLoi = true;
-                            }
-                            else if (model.ketthuc < model.batdau)
-                            {
-                                //msg.message += model.sgtcode + "Ngày bắt đầu phải nhỏ hơn ngày kết thúc<br/>";
-                                msg.message += "<ktbdkt>Ngày bắt đầu phải nhỏ hơn ngày kết thúc</ktbdkt>";
-                                //msg.errorCount += 1;
-                                bCoLoi = true;
-                            }
-                            else if (model.ngaythanhlyhd < model.ketthuc && model.ngaythanhlyhd != null)
-                            {
-                                // msg.message += model.sgtcode + "Ngày thanh lý nhỏ hơn ngày kết thúc<br/>";
-                                msg.message += "<ktthanhly>Ngày thanh lý nhỏ hơn ngày kết thúc</ktthanhly>";
-                                //msg.errorCount += 1;
-                                bCoLoi = true;
-                            }
-                            else if (model.sgtcode.Length > 17)
-                            {
-                                // msg.message += model.sgtcode + "Ngày thanh lý nhỏ hơn ngày kết thúc<br/>";
-                                msg.message += "<sgtcodelen>Code đoàn không lớn hơn 17 ký tự</sgtcodelen>";
-                                //msg.errorCount += 1;
-                                bCoLoi = true;
-                            }
-                            else
-                            {
-                                string id = null;
+                            bCoLoi = true;
+                        }
+                        else if (model.ketthuc == null)
+                        {
+                            //msg.message += model.sgtcode + "Không để trống ngày kết thúc <br/>";
+                            msg.message += "<ktketthuc>Không để trống ngày kết thúc</ktketthuc>";
+                            //msg.errorCount += 1;
+                            bCoLoi = true;
+                        }
+                        //else if (model.chudetour == "" || model.chudetour == null)
+                        //{
+                        //    //msg.message += model.sgtcode + "Không để trống chủ đề tour <br/>";
+                        //    msg.message += "<ktchudetour>Không để trống chủ đề tour</ktchudetour>";
+                        //    //msg.errorCount += 1;
+                        //    bCoLoi = true;
+                        //}
+                        //else if (model.tuyentq == "" || model.tuyentq == null)
+                        //{
+                        //    //msg.message += model.sgtcode + "Không để trống tuyến tham quan <br/>";
+                        //    msg.message += "<kttuyentq>Không để trống tuyến tham quan</kttuyentq>";
+                        //    //msg.errorCount += 1;
+                        //    bCoLoi = true;
+                        //}
+                        else if (model.sokhachdk == null)
+                        {
+                            // msg.message += model.sgtcode + "Không để trống số khách dự kiến <br/>";
+                            msg.message += "<ktskdk>Không để trống số khách dự kiến</ktskdk>";
+                            //msg.errorCount += 1;
+                            bCoLoi = true;
+                        }
+                        else if (model.doanhthudk == null)
+                        {
+                            //msg.message += model.sgtcode + "Không để trống doanh thu dự kiến <br/>";
+                            msg.message += "<ktdtdk>Không để trống doanh thu dự kiến</ktdtdk>";
+                            //msg.errorCount += 1;
+                            bCoLoi = true;
+                        }
+                        else if (model.ketthuc < model.batdau)
+                        {
+                            //msg.message += model.sgtcode + "Ngày bắt đầu phải nhỏ hơn ngày kết thúc<br/>";
+                            msg.message += "<ktbdkt>Ngày bắt đầu phải nhỏ hơn ngày kết thúc</ktbdkt>";
+                            //msg.errorCount += 1;
+                            bCoLoi = true;
+                        }
+                        else if (model.ngaythanhlyhd < model.ketthuc && model.ngaythanhlyhd != null)
+                        {
+                            // msg.message += model.sgtcode + "Ngày thanh lý nhỏ hơn ngày kết thúc<br/>";
+                            msg.message += "<ktthanhly>Ngày thanh lý nhỏ hơn ngày kết thúc</ktthanhly>";
+                            //msg.errorCount += 1;
+                            bCoLoi = true;
+                        }
+                        else if (model.sgtcode.Length > 17)
+                        {
+                            // msg.message += model.sgtcode + "Ngày thanh lý nhỏ hơn ngày kết thúc<br/>";
+                            msg.message += "<sgtcodelen>Code đoàn không lớn hơn 17 ký tự</sgtcodelen>";
+                            //msg.errorCount += 1;
+                            bCoLoi = true;
+                        }
+                        else
+                        {
+                            string id = null;
 
-                                try
+                            try
+                            {
+                                if (model.ngaydamphan != null)
                                 {
-                                    if (model.ngaydamphan != null)
-                                    {
-                                        model.trangthai = "1";
-                                    }
-
-
-                                    if (model.ngaykyhopdong != null)
-                                    {
-                                        model.trangthai = "2";
-                                    }
-
-                                    if (model.ngaythanhlyhd != null)
-                                    {
-                                        model.trangthai = "3";
-                                    }
-
-                                    id = dao.Insert(model);
-                                }
-                                catch (Exception ex)
-                                {
-                                    // msg.message += model.sgtcode + " - " + ex.Message + "<br/>";
-                                    msg.message += "<loithemtour>" + ex.Message + "</loithemtour>";
-                                    //msg.errorCount += 1;
-                                    bCoLoi = true;
+                                    model.trangthai = "1";
                                 }
 
 
-                              
+                                if (model.ngaykyhopdong != null)
+                                {
+                                    model.trangthai = "2";
+                                }
 
+                                if (model.ngaythanhlyhd != null)
+                                {
+                                    model.trangthai = "3";
+                                }
+
+                                id = dao.Insert(model);
                             }
+                            catch (Exception ex)
+                            {
+                                // msg.message += model.sgtcode + " - " + ex.Message + "<br/>";
+                                msg.message += "<loithemtour>" + ex.Message + "</loithemtour>";
+                                //msg.errorCount += 1;
+                                bCoLoi = true;
+                            }
+
+
+
+
+                        }
 
 
                         //}
@@ -529,7 +529,7 @@ namespace qlkdst.Controllers
                         string sDienThoai = row[7].ToString();
                         string sFax = row[8].ToString();
                         string sEmail = row[9].ToString();
-                        if(sEmail!=null) sEmail = sEmail.Trim();
+                        if (sEmail != null) sEmail = sEmail.Trim();
                         string sNgayDiTour = row[10].ToString();
                         string sKetThuc = row[11].ToString();
                         string sChudetour = row[12].ToString();
@@ -1254,7 +1254,7 @@ namespace qlkdst.Controllers
                     if (row[0].ToString() != "") //co du lieu moi xu ly
                     {
 
-                    
+
 
                         string sSTT = row[0].ToString();//chua su dung
                         string sSgtCode = row[1].ToString();
@@ -1298,7 +1298,7 @@ namespace qlkdst.Controllers
 
                         try
                         {
-                          
+
                             //model.sgtcode = sSgtCode;
                             model.nguoitao = sSales;
                             model.makh = sMakh;
@@ -1514,106 +1514,106 @@ namespace qlkdst.Controllers
                         //}
                         //else
                         //{
-                            if (model.batdau == null)
-                            {
-                                //msg.message += model.sgtcode + "Không để trống ngày bắt đầu <br/>";
-                                msg.message += "<ktbatdau>Không để trống ngày bắt đầu</ktbatdau>";
-                                //msg.errorCount += 1;
-                                bCoLoi = true;
-                            }
-                            else if (model.ketthuc == null)
-                            {
-                                //msg.message += model.sgtcode + "Không để trống ngày kết thúc <br/>";
-                                msg.message += "<ktketthuc>Không để trống ngày kết thúc</ktketthuc>";
-                                //msg.errorCount += 1;
-                                bCoLoi = true;
-                            }
-                            else if (model.chudetour == "" || model.chudetour == null)
-                            {
-                                //msg.message += model.sgtcode + "Không để trống chủ đề tour <br/>";
-                                msg.message += "<ktchudetour>Không để trống chủ đề tour</ktchudetour>";
-                                //msg.errorCount += 1;
-                                bCoLoi = true;
-                            }
-                            else if (model.tuyentq == "" || model.tuyentq == null)
-                            {
-                                //msg.message += model.sgtcode + "Không để trống tuyến tham quan <br/>";
-                                msg.message += "<kttuyentq>Không để trống tuyến tham quan</kttuyentq>";
-                                //msg.errorCount += 1;
-                                bCoLoi = true;
-                            }
-                            else if (model.sokhachdk == null)
-                            {
-                                // msg.message += model.sgtcode + "Không để trống số khách dự kiến <br/>";
-                                msg.message += "<ktskdk>Không để trống số khách dự kiến</ktskdk>";
-                                //msg.errorCount += 1;
-                                bCoLoi = true;
-                            }
-                            else if (model.doanhthudk == null)
-                            {
-                                //msg.message += model.sgtcode + "Không để trống doanh thu dự kiến <br/>";
-                                msg.message += "<ktdtdk>Không để trống doanh thu dự kiến</ktdtdk>";
-                                //msg.errorCount += 1;
-                                bCoLoi = true;
-                            }
-                            else if (model.ketthuc < model.batdau)
-                            {
-                                //msg.message += model.sgtcode + "Ngày bắt đầu phải nhỏ hơn ngày kết thúc<br/>";
-                                msg.message += "<ktbdkt>Ngày bắt đầu phải nhỏ hơn ngày kết thúc</ktbdkt>";
-                                //msg.errorCount += 1;
-                                bCoLoi = true;
-                            }
-                            else if (model.ngaythanhlyhd < model.ketthuc && model.ngaythanhlyhd != null)
-                            {
-                                // msg.message += model.sgtcode + "Ngày thanh lý nhỏ hơn ngày kết thúc<br/>";
-                                msg.message += "<ktthanhly>Ngày thanh lý nhỏ hơn ngày kết thúc</ktthanhly>";
-                                //msg.errorCount += 1;
-                                bCoLoi = true;
-                            }
-                            else if (model.sgtcode.Length > 17)
-                            {
-                                // msg.message += model.sgtcode + "Ngày thanh lý nhỏ hơn ngày kết thúc<br/>";
-                                msg.message += "<sgtcodelen>Code đoàn không lớn hơn 17 ký tự</sgtcodelen>";
-                                //msg.errorCount += 1;
-                                bCoLoi = true;
-                            }
-                            else
-                            {
-                                string id = null;
+                        if (model.batdau == null)
+                        {
+                            //msg.message += model.sgtcode + "Không để trống ngày bắt đầu <br/>";
+                            msg.message += "<ktbatdau>Không để trống ngày bắt đầu</ktbatdau>";
+                            //msg.errorCount += 1;
+                            bCoLoi = true;
+                        }
+                        else if (model.ketthuc == null)
+                        {
+                            //msg.message += model.sgtcode + "Không để trống ngày kết thúc <br/>";
+                            msg.message += "<ktketthuc>Không để trống ngày kết thúc</ktketthuc>";
+                            //msg.errorCount += 1;
+                            bCoLoi = true;
+                        }
+                        else if (model.chudetour == "" || model.chudetour == null)
+                        {
+                            //msg.message += model.sgtcode + "Không để trống chủ đề tour <br/>";
+                            msg.message += "<ktchudetour>Không để trống chủ đề tour</ktchudetour>";
+                            //msg.errorCount += 1;
+                            bCoLoi = true;
+                        }
+                        else if (model.tuyentq == "" || model.tuyentq == null)
+                        {
+                            //msg.message += model.sgtcode + "Không để trống tuyến tham quan <br/>";
+                            msg.message += "<kttuyentq>Không để trống tuyến tham quan</kttuyentq>";
+                            //msg.errorCount += 1;
+                            bCoLoi = true;
+                        }
+                        else if (model.sokhachdk == null)
+                        {
+                            // msg.message += model.sgtcode + "Không để trống số khách dự kiến <br/>";
+                            msg.message += "<ktskdk>Không để trống số khách dự kiến</ktskdk>";
+                            //msg.errorCount += 1;
+                            bCoLoi = true;
+                        }
+                        else if (model.doanhthudk == null)
+                        {
+                            //msg.message += model.sgtcode + "Không để trống doanh thu dự kiến <br/>";
+                            msg.message += "<ktdtdk>Không để trống doanh thu dự kiến</ktdtdk>";
+                            //msg.errorCount += 1;
+                            bCoLoi = true;
+                        }
+                        else if (model.ketthuc < model.batdau)
+                        {
+                            //msg.message += model.sgtcode + "Ngày bắt đầu phải nhỏ hơn ngày kết thúc<br/>";
+                            msg.message += "<ktbdkt>Ngày bắt đầu phải nhỏ hơn ngày kết thúc</ktbdkt>";
+                            //msg.errorCount += 1;
+                            bCoLoi = true;
+                        }
+                        else if (model.ngaythanhlyhd < model.ketthuc && model.ngaythanhlyhd != null)
+                        {
+                            // msg.message += model.sgtcode + "Ngày thanh lý nhỏ hơn ngày kết thúc<br/>";
+                            msg.message += "<ktthanhly>Ngày thanh lý nhỏ hơn ngày kết thúc</ktthanhly>";
+                            //msg.errorCount += 1;
+                            bCoLoi = true;
+                        }
+                        else if (model.sgtcode.Length > 17)
+                        {
+                            // msg.message += model.sgtcode + "Ngày thanh lý nhỏ hơn ngày kết thúc<br/>";
+                            msg.message += "<sgtcodelen>Code đoàn không lớn hơn 17 ký tự</sgtcodelen>";
+                            //msg.errorCount += 1;
+                            bCoLoi = true;
+                        }
+                        else
+                        {
+                            string id = null;
 
-                                try
+                            try
+                            {
+                                if (model.ngaydamphan != null)
                                 {
-                                    if (model.ngaydamphan != null)
-                                    {
-                                        model.trangthai = "1";
-                                    }
-
-
-                                    if (model.ngaykyhopdong != null)
-                                    {
-                                        model.trangthai = "2";
-                                    }
-
-                                    if (model.ngaythanhlyhd != null)
-                                    {
-                                        model.trangthai = "3";
-                                    }
-
-                              
-                                    id = dao.Update(model);
-                                }
-                                catch (Exception ex)
-                                {
-                                    // msg.message += model.sgtcode + " - " + ex.Message + "<br/>";
-                                    msg.message += "<loithemtour>" + ex.Message + "</loithemtour>";
-                                    //msg.errorCount += 1;
-                                    bCoLoi = true;
+                                    model.trangthai = "1";
                                 }
 
 
-                              
+                                if (model.ngaykyhopdong != null)
+                                {
+                                    model.trangthai = "2";
+                                }
 
+                                if (model.ngaythanhlyhd != null)
+                                {
+                                    model.trangthai = "3";
+                                }
+
+
+                                id = dao.Update(model);
                             }
+                            catch (Exception ex)
+                            {
+                                // msg.message += model.sgtcode + " - " + ex.Message + "<br/>";
+                                msg.message += "<loithemtour>" + ex.Message + "</loithemtour>";
+                                //msg.errorCount += 1;
+                                bCoLoi = true;
+                            }
+
+
+
+
+                        }
 
 
                         //}
@@ -1762,7 +1762,7 @@ namespace qlkdst.Controllers
             return View(model);
         }
 
-      
+
 
         /// <summary>
         /// lay danh muc hoa hong
@@ -1899,9 +1899,9 @@ namespace qlkdst.Controllers
 
         public ActionResult LayDSHangkhong(decimal id)//idtour
         {
-         //   string sSgtCode = "";
-         //   tourDAO tDao = new tourDAO();
-          //  sSgtCode = tDao.Details(id).sgtcode;
+            //   string sSgtCode = "";
+            //   tourDAO tDao = new tourDAO();
+            //  sSgtCode = tDao.Details(id).sgtcode;
 
             hkDAO dao = new hkDAO();
             var model = dao.GetDSHK(id);
@@ -1936,7 +1936,7 @@ namespace qlkdst.Controllers
         public ActionResult LayDSDmFileDieuHanh(decimal id)//idtour
         {
             dmfileDAO dao = new dmfileDAO();
-            var model = dao.LayDSDmFile(id,"CTTOURDH");//chuong trinh tour cua dieu hanh
+            var model = dao.LayDSDmFile(id, "CTTOURDH");//chuong trinh tour cua dieu hanh
             ViewBag.idtour = id;
             return PartialView("LayDSDmFileDieuHanh", model);
         }
@@ -2452,13 +2452,13 @@ namespace qlkdst.Controllers
         public ActionResult ThemFile(decimal id)//idtour
         {
             if (Session["username"] == null) return RedirectToAction("login", "Login");
-            
+
             ViewBag.idtour = id;
             dmfileViewModal model = new dmfileViewModal();
             model.idtour = id;
             model.ngaytao = DateTime.Now;
             model.nguoitao = Session["username"].ToString();
-            
+
             return PartialView(model);
         }
         [HttpPost]
@@ -2471,9 +2471,9 @@ namespace qlkdst.Controllers
                 {
                     string sUsrId = Session["userId"].ToString();
 
-                    dmfile vm = new dmfile();                     
-                 //   vm.loaifile = model.loaifile;
-                 //   vm.tenfile = model.tenfile;
+                    dmfile vm = new dmfile();
+                    //   vm.loaifile = model.loaifile;
+                    //   vm.tenfile = model.tenfile;
                     vm.idtour = model.idtour;
                     vm.nguoitao = Session["username"].ToString();
                     vm.ngaytao = DateTime.Now;
@@ -2553,14 +2553,14 @@ namespace qlkdst.Controllers
             dmfile model = dao.Details(id);
 
             vm.idtour = idtour;
-            vm.file_id = model.file_id;           
+            vm.file_id = model.file_id;
             vm.loaifile = model.loaifile;
             vm.tenfile = model.tenfile;
             vm.idtour = model.idtour;
             vm.nguoitao = model.nguoitao;
             vm.ngaytao = model.ngaytao;
-            vm.log_file = model.log_file;          
-           
+            vm.log_file = model.log_file;
+
             return PartialView(vm);
         }
         [HttpPost]
@@ -2603,7 +2603,7 @@ namespace qlkdst.Controllers
 
                                 model.fileupload.SaveAs(path);
                                 vm.tenfile = fileName;
-                              
+
                             }
 
                         }
@@ -2619,8 +2619,8 @@ namespace qlkdst.Controllers
                     if (vm.tenfile != model.tenfile)
                     {
                         temp += String.Format("-tenfile thay đổi: {0}->{1}", vm.tenfile, model.tenfile);
-                    }                   
-                
+                    }
+
                     if (temp.Length > 0)
                     {
                         log = System.Environment.NewLine + "=============" + System.Environment.NewLine;
@@ -2647,7 +2647,7 @@ namespace qlkdst.Controllers
                     return Json("Sửa Không Thành Công, báo lỗi: " + ex.Message);
                 }
             }
-      
+
             return Json("Có lỗi!");
         }
 
@@ -2674,9 +2674,9 @@ namespace qlkdst.Controllers
                 log += " -User xóa : " + Session["username"].ToString() + " vào lúc: " + System.DateTime.Now.ToString();
                 dstc.log_file = dstc.log_file + log;
                 dstc.nguoitao = Session["username"].ToString();
-                dstc.ngaytao = DateTime.Now;               
-                string res = dao.UpdateAnDel(id,log, Session["username"].ToString(), DateTime.Now);
-                                
+                dstc.ngaytao = DateTime.Now;
+                string res = dao.UpdateAnDel(id, log, Session["username"].ToString(), DateTime.Now);
+
 
             }
             catch (Exception ex)
@@ -2694,8 +2694,8 @@ namespace qlkdst.Controllers
         {
             string sUsrId = Session["userId"].ToString();
             ViewBag.idtour = id;
-           
-            khachsan model = new khachsan();           
+
+            khachsan model = new khachsan();
             model.ngaytao = DateTime.Now;
             model.dieuhanh = sUsrId;
             model.idtour = id;
@@ -2737,7 +2737,7 @@ namespace qlkdst.Controllers
         public ActionResult EditKS(decimal id)//visa id
         {
             khachsanDAO dao = new khachsanDAO();
-            khachsan model = dao.Details(id);           
+            khachsan model = dao.Details(id);
             return PartialView(model);
         }
         [HttpPost]
@@ -2748,7 +2748,7 @@ namespace qlkdst.Controllers
             {
                 try
                 {
-                    string sUsrId = Session["userId"].ToString();                  
+                    string sUsrId = Session["userId"].ToString();
 
                     string id = dao.Update(model);
 
@@ -2840,10 +2840,10 @@ namespace qlkdst.Controllers
         }
 
         public ActionResult EditVisa(decimal id)//visa id
-        {            
+        {
             visaDAO dao = new visaDAO();
-            visa model = dao.Details(id);          
-            ViewBag.phaifm = new SelectList(TaoListPhaiBoolFM(), "Value", "Text", model.sex);           
+            visa model = dao.Details(id);
+            ViewBag.phaifm = new SelectList(TaoListPhaiBoolFM(), "Value", "Text", model.sex);
             return PartialView(model);
         }
         [HttpPost]
@@ -2939,7 +2939,7 @@ namespace qlkdst.Controllers
 
             huongdanViewModal model = new huongdanViewModal();
             huongdanDAO dao = new huongdanDAO();
-            model.mahd =dao.newCode();
+            model.mahd = dao.newCode();
             model.idtour = id;
             return PartialView(model);
         }
@@ -2947,13 +2947,13 @@ namespace qlkdst.Controllers
         public ActionResult ThemHD(huongdanViewModal modal)
         {
             var dao = new huongdanDAO();
-                       
+
             if (ModelState.IsValid)
             {
                 try
                 {
                     string sUsrId = Session["userId"].ToString();
-                    dmhuongdan v = new dmhuongdan();                 
+                    dmhuongdan v = new dmhuongdan();
                     v.mahd = dao.newCode();
                     v.idtour = modal.idtour;
                     v.chinhanh = modal.chinhanh;
@@ -2963,7 +2963,7 @@ namespace qlkdst.Controllers
                     v.dienthoaidd = modal.dienthoaidd;
                     v.hochieu = modal.hochieu;
                     v.hieuluchc = modal.hieuluchc;
-                  
+
                     string id = dao.Insert(v);
 
                     if (id != null)
@@ -2989,7 +2989,7 @@ namespace qlkdst.Controllers
         {
 
             huongdanDAO dao = new huongdanDAO();
-            dmhuongdan hd = dao.Details(id);           
+            dmhuongdan hd = dao.Details(id);
 
             huongdanViewModal model = new huongdanViewModal();
             model.mahd = id;
@@ -3001,7 +3001,7 @@ namespace qlkdst.Controllers
             model.dienthoaidd = hd.dienthoaidd;
             model.hochieu = hd.hochieu;
             model.hieuluchc = hd.hieuluchc;
-            ViewBag.phai = new SelectList(TaoListPhaiBool(), "Value", "Text",model.phai);
+            ViewBag.phai = new SelectList(TaoListPhaiBool(), "Value", "Text", model.phai);
             ViewBag.chinhanh = listChinhanh(model.chinhanh);
             return PartialView(model);
         }
@@ -3024,7 +3024,7 @@ namespace qlkdst.Controllers
                     model.dienthoaidd = hd.dienthoaidd;
                     model.hochieu = hd.hochieu;
                     model.hieuluchc = hd.hieuluchc;
-          
+
                     string id = dao.Update(model);
 
                     if (id != null)
@@ -3049,11 +3049,11 @@ namespace qlkdst.Controllers
         public ActionResult XoaHD(string id)
         {
             string sUsrId = Session["userId"].ToString();
-                       
+
             var dao = new huongdanDAO();
 
             try
-            {  
+            {
                 string res = dao.Delete(id);
             }
             catch (Exception ex)
@@ -3074,7 +3074,7 @@ namespace qlkdst.Controllers
 
             ViewBag.idtour = tourmodel.idtour;
 
-            hangkhongViewModal model = new hangkhongViewModal();       
+            hangkhongViewModal model = new hangkhongViewModal();
             model.idtour = id;
             model.sgtcode = tourmodel.sgtcode;
 
@@ -3144,7 +3144,7 @@ namespace qlkdst.Controllers
                     return Json("Thêm Không Thành Công, báo lỗi: " + ex.Message);
                 }
             }
-          
+
             return Json("Có lỗi!");
         }
 
@@ -3183,7 +3183,7 @@ namespace qlkdst.Controllers
             List<dichvu> lstDv = new List<dichvu>();
             dichvuDAO dvDAO = new dichvuDAO();
             lstDv = dvDAO.GetAllDichvu();
-            ViewBag.iddv = new SelectList(lstDv.OrderBy(x => x.tendv), "iddv", "tendv",model.iddv);
+            ViewBag.iddv = new SelectList(lstDv.OrderBy(x => x.tendv), "iddv", "tendv", model.iddv);
 
             return PartialView(model);
         }
@@ -3349,7 +3349,7 @@ namespace qlkdst.Controllers
                 log += " -User xóa : " + Session["username"].ToString() + " vào lúc: " + System.DateTime.Now.ToString();
                 //dstc.logfilehk = dstc.logfilehk + log;               
 
-                string res = dao.UpdateAnDel(id, log,sUsrId,DateTime.Now);                 
+                string res = dao.UpdateAnDel(id, log, sUsrId, DateTime.Now);
 
             }
             catch (Exception ex)
@@ -3423,7 +3423,7 @@ namespace qlkdst.Controllers
             return PartialView(model);
         }
         [HttpPost]
-        public  ActionResult  ThemDoitacCP(doitaccpViewModal model)
+        public ActionResult ThemDoitacCP(doitaccpViewModal model)
         {
             var dao = new chiphiDAO();
             if (ModelState.IsValid)
@@ -3453,7 +3453,7 @@ namespace qlkdst.Controllers
 
                     dmchiphi.computer = compName;
                     dmchiphi.del = false;
-                    dmchiphi.tenfileinvoice = model.tenfileinvoice;                  
+                    dmchiphi.tenfileinvoice = model.tenfileinvoice;
 
                     dmchiphi.computer = model.computer;
 
@@ -3474,9 +3474,9 @@ namespace qlkdst.Controllers
 
                                 var path = Path.Combine(Server.MapPath("~/DMFileUpload/chiphi/"), fileName);
 
-                                 model.uploadInvoice.SaveAs(path);
+                                model.uploadInvoice.SaveAs(path);
                                 model.tenfileinvoice = fileName;
-                              
+
                             }
 
                         }
@@ -3519,7 +3519,7 @@ namespace qlkdst.Controllers
             return Json("Có lỗi!");
         }
 
-        public ActionResult EditDoitacCP(decimal id,decimal idtour)
+        public ActionResult EditDoitacCP(decimal id, decimal idtour)
         {
             if (Session["username"] == null) return RedirectToAction("login", "Login");
             chiphiDAO dao = new chiphiDAO();
@@ -3530,7 +3530,7 @@ namespace qlkdst.Controllers
 
             doitaccpViewModal dmchiphi = new doitaccpViewModal();
             chiphi model = dao.Details(id);
-            
+
             dmchiphi.idtour = idtour;
             dmchiphi.Id = model.Id;
             dmchiphi.sgtcode = model.sgtcode;
@@ -3546,9 +3546,9 @@ namespace qlkdst.Controllers
             dmchiphi.noidung = model.noidung;
             dmchiphi.ghichu = model.ghichu;
             dmchiphi.nguoinhap = model.nguoinhap;
-            dmchiphi.ngaynhap =model.ngaynhap;
-          //  string IP = Request.UserHostName;
-           // string compName = DetermineCompName(IP);
+            dmchiphi.ngaynhap = model.ngaynhap;
+            //  string IP = Request.UserHostName;
+            // string compName = DetermineCompName(IP);
 
             dmchiphi.computer = model.computer;
             dmchiphi.del = false;
@@ -3592,7 +3592,7 @@ namespace qlkdst.Controllers
                     string compName = DetermineCompName(IP);
                     cp.computer = compName;
                     cp.del = false;
-                  
+
 
                     if (Request.Files.Count > 0)
                     {
@@ -3743,17 +3743,17 @@ namespace qlkdst.Controllers
                 string log = System.Environment.NewLine + "=============" + System.Environment.NewLine;
                 log += " -User xóa : " + Session["username"].ToString() + " vào lúc: " + System.DateTime.Now.ToString();
                 dstc.log_file = dstc.log_file + log;
-              //  dstc.nguoinhap = sUsrId;
-               // dstc.ngaynhap = DateTime.Now;
+                //  dstc.nguoinhap = sUsrId;
+                // dstc.ngaynhap = DateTime.Now;
                 dstc.del = true;
                 //  string res = dao.Update(dstc);
 
                 string IP = Request.UserHostName;
                 string compName = DetermineCompName(IP);
                 dstc.computer = compName;
-             
 
-                string res = dao.UpdateAnDel(id,log, Session["username"].ToString(),DateTime.Now);
+
+                string res = dao.UpdateAnDel(id, log, Session["username"].ToString(), DateTime.Now);
 
             }
             catch (Exception ex)
@@ -3876,8 +3876,8 @@ namespace qlkdst.Controllers
             {
                 try
                 {
-                    string sUsrId = Session["userId"].ToString();                    
-                  
+                    string sUsrId = Session["userId"].ToString();
+
                     try
                     {
                         string IP = Request.UserHostName;
@@ -3902,7 +3902,7 @@ namespace qlkdst.Controllers
                     }
                     catch (Exception ex)
                     {
-                        return Json("Thêm không thành công, lỗi: "+ex.Message);
+                        return Json("Thêm không thành công, lỗi: " + ex.Message);
                     }
 
                 }
@@ -4089,7 +4089,7 @@ namespace qlkdst.Controllers
             model = dao.Details(id);
             model.ngaysua = DateTime.Now;
             model.nguoisua = Session["username"].ToString();
-         
+
             tourDAO daotour = new tourDAO();
             tour t = daotour.Details((decimal)model.idtour);
 
@@ -4141,8 +4141,8 @@ namespace qlkdst.Controllers
             var dao = new thongtinDAO();
 
             try
-            {               
-                string res = dao.Delete(id);           
+            {
+                string res = dao.Delete(id);
 
             }
             catch (Exception ex)
@@ -4389,7 +4389,7 @@ namespace qlkdst.Controllers
             return ewres;
         }
 
-     
+
 
         public List<SelectListItem> TaoListPhai()
         {
@@ -4403,7 +4403,7 @@ namespace qlkdst.Controllers
             return items;
         }
 
-        
+
         public ActionResult ThemKhach(decimal id)
         {
             dmkhachtour model = new dmkhachtour();
@@ -4430,23 +4430,23 @@ namespace qlkdst.Controllers
                     }
                     else
                     {
-                        return Json("Thêm Không Thành Công"); 
+                        return Json("Thêm Không Thành Công");
                     }
 
                 }
                 catch (Exception ex)
                 {
-                    return Json("Thêm Không Thành Công, báo lỗi: "+ex.Message);
+                    return Json("Thêm Không Thành Công, báo lỗi: " + ex.Message);
                 }
             }
-            
+
 
             return View(model);
         }
 
         public ActionResult ThemKhachImport(decimal id)
         {
-            dmkhachtourVM model = new dmkhachtourVM();         
+            dmkhachtourVM model = new dmkhachtourVM();
             model.idtour = id;
             return PartialView(model);
         }
@@ -4454,7 +4454,7 @@ namespace qlkdst.Controllers
         public ActionResult ThemKhachImport(dmkhachtourVM model)
         {
             if (Request.Files.Count > 0)
-            {              
+            {
 
                 if (model.uploadExcel != null && model.uploadExcel.ContentLength > 0)
                 {
@@ -4473,7 +4473,7 @@ namespace qlkdst.Controllers
 
                             if (message.count > 0)
                             {
-                                return Json(true); 
+                                return Json(true);
                             }
                             else if (message.errorCount > 0)
                             {
@@ -4711,7 +4711,7 @@ namespace qlkdst.Controllers
             }
             catch (Exception ex)
             {
-                return Json("Xóa bị lỗi: "+ex.Message);
+                return Json("Xóa bị lỗi: " + ex.Message);
             }
 
             return Json(true);
@@ -4743,7 +4743,7 @@ namespace qlkdst.Controllers
                 {
                     return Json("Thêm Không Thành Công, lí do: " + ex.Message);
                 }
-            }             
+            }
 
             return View(model);
         }
@@ -4785,7 +4785,7 @@ namespace qlkdst.Controllers
         /// <param name="nam"></param>
         /// <param name="thang"></param>
         /// <returns></returns>
-        public string GetSHD(int nam,int thang)
+        public string GetSHD(int nam, int thang)
         {
             var dao = new tourDAO();
             string sSTT = "";
@@ -4833,7 +4833,7 @@ namespace qlkdst.Controllers
                 sSHD = sThang + "001";
             }
 
-            
+
 
             return sSHD;
         }
@@ -4959,9 +4959,9 @@ namespace qlkdst.Controllers
             ViewBag.dmquocgia = new SelectList(db.nuoc.OrderBy(x => x.TenNuoc), "Id", "TenNuoc");
             ViewBag.dmthanhpho = new SelectList(db.quan.OrderBy(x => x.tenquan), "maquan", "tenquan");
             ViewBag.nguontour = new SelectList(DungChung.ListNguonTour(), "value", "text");
-            
+
             dmkhachhangDAO dmkhDAO = new dmkhachhangDAO();
-            List<DDLDmKH> lst = dmkhDAO.GetDDLDmKH(sUserId,sRole,sChinhanh);
+            List<DDLDmKH> lst = dmkhDAO.GetDDLDmKH(sUserId, sRole, sChinhanh);
             ViewBag.dmkh = new SelectList(lst.OrderBy(x => x.tengiaodich), "makh", "tengiaodich");
 
             //lay chinhanh
@@ -4989,7 +4989,7 @@ namespace qlkdst.Controllers
             try
             {
                 string sUsrId = Session["userId"].ToString();
-                string sUsrNm= Session["username"].ToString();
+                string sUsrNm = Session["username"].ToString();
                 model.ngaytao = DateTime.Now;
                 model.nguoitao = sUsrNm;
                 model.trangthai = "0";//mac dinh la moi tao
@@ -5037,7 +5037,7 @@ namespace qlkdst.Controllers
 
                         if (sAllowUpFile.Contains(sExt.ToLower()))
                         {
-                           string s = MyUploadFile(DungChung.FTP_PATH + DungChung.CTTOUR_FTP_PATH, DungChung.USER, DungChung.PASS, fileChuongTrinhTour, model.sgtcode, "CTT_");
+                            string s = MyUploadFile(DungChung.FTP_PATH + DungChung.CTTOUR_FTP_PATH, DungChung.USER, DungChung.PASS, fileChuongTrinhTour, model.sgtcode, "CTT_");
                             model.chuongtrinhtour = fileName;
                         }
                         else
@@ -5061,7 +5061,7 @@ namespace qlkdst.Controllers
                 //}
 
 
-             
+
 
                 if (sSgtCode == "")
                 {
@@ -5078,7 +5078,7 @@ namespace qlkdst.Controllers
 
                         try
                         {
-                       
+
                             tourlogDAO dao1 = new tourlogDAO();
                             tourlog modellog = new tourlog();
                             modellog = DungChung.SetModelGhiLog(modellog, model, Session["username"].ToString(), "Create");
@@ -5096,7 +5096,7 @@ namespace qlkdst.Controllers
                     {
                         SetAlert("Thêm Không Thành Công", "warning");
                     }
-                }             
+                }
 
             }
             catch (Exception ex)
@@ -5127,7 +5127,7 @@ namespace qlkdst.Controllers
             string sChinhanh = Session["chinhanh"].ToString();
             string sRole = Session["RoleName"].ToString();
 
-            List<dmkhachhang> lst = dao.GetAllKH(makh,sUserId,sRole,sChinhanh);
+            List<dmkhachhang> lst = dao.GetAllKH(makh, sUserId, sRole, sChinhanh);
 
             //var khlst=(from k in lst where k.makh.StartsWith(makh) || (k.makhold != null && k.makhold.StartsWith(makh) ) select new {k.makh,k.makhold,k.tengiaodich,k.email,k.diachi,k.telephone,k.fax });
             var khlst = (from k in lst where k.makh.StartsWith(makh) || (k.codecn != null && k.codecn.StartsWith(makh)) select new { k.makh, k.codecn, k.tengiaodich, k.email, k.diachi, k.telephone, k.fax });
@@ -5143,7 +5143,7 @@ namespace qlkdst.Controllers
             string sChinhanh = Session["chinhanh"].ToString();
             string sRole = Session["RoleName"].ToString();
 
-            List<DDLDmKH> lst = dao.GetDDLDmKHByTenGiaoDich(o.tengiaodich,sUserId,sRole,sChinhanh);
+            List<DDLDmKH> lst = dao.GetDDLDmKHByTenGiaoDich(o.tengiaodich, sUserId, sRole, sChinhanh);
 
             return Json(lst, JsonRequestBehavior.AllowGet);
         }
@@ -5230,7 +5230,7 @@ namespace qlkdst.Controllers
             {
                 model.nguoitao = "";
             }
-            
+
 
             ViewBag.loaitourid = new SelectList(db.loaitour, "tenloaitour", "tenloaitour", model.loaitourid);
             ViewBag.dmquocgia = new SelectList(db.nuoc.OrderBy(x => x.TenNuoc), "Id", "TenNuoc");
@@ -5299,7 +5299,7 @@ namespace qlkdst.Controllers
                         model.chinhanh = Session["chinhanh"].ToString();
                     }
 
-                    if(Session["ngaytao"]!=null)
+                    if (Session["ngaytao"] != null)
                     {
                         model.ngaytao = DateTime.Parse(Session["ngaytao"].ToString());
                     }
@@ -5326,7 +5326,7 @@ namespace qlkdst.Controllers
                             model.sohopdong = sSHD;
                         }
                         catch { }
-                        
+
                     }
                 }
 
@@ -5553,7 +5553,8 @@ namespace qlkdst.Controllers
                 if (dBatDau.Year != d1.Year)
                 {
                     SetAlert("Không được sửa năm của ngày bắt đầu đi tour!", "error");
-                }else
+                }
+                else
                 {
                     string id = dao.Update(model);
 
@@ -5598,7 +5599,7 @@ namespace qlkdst.Controllers
                     SetAlert("Sửa  Thành Công", "success");
                 }
 
-                
+
             }
             catch (Exception ex)
             {
@@ -5857,10 +5858,10 @@ namespace qlkdst.Controllers
             return View();
 
         }
-    //}
+        //}
 
-    #endregion
-    public ActionResult Details(int id)
+        #endregion
+        public ActionResult Details(int id)
         {
             if (id == 0)
             {
@@ -5921,7 +5922,7 @@ namespace qlkdst.Controllers
                 try
                 {
                     //06082019. cap nhat thong tin huy tour sang khach le
-                    int iHuyTour=dao.HuyTourSangKhachLe(model.sgtcode, model.ngayhuytour, model.nguoisua, model.nguyennhanhuythau);
+                    int iHuyTour = dao.HuyTourSangKhachLe(model.sgtcode, model.ngayhuytour, model.nguoisua, model.nguyennhanhuythau);
 
                     tourlogDAO dao1 = new tourlogDAO();
                     tourlog modellog = new tourlog();
@@ -6795,7 +6796,7 @@ namespace qlkdst.Controllers
             }
         }
 
-        
+
         #endregion
 
 
