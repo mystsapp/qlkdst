@@ -1,0 +1,112 @@
+﻿@model qlkdstDB.Data.ViewModel.dmfileViewModal
+
+
+
+<script src="~/Scripts/script-custom-validator.js"></script>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Upload file chương trình tour
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <form id="frmdmfile" enctype="multipart/form-data" method="post">
+
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.idtour)
+
+                        <input type="hidden" id="hidaddtourid" value="@Model.idtour" />
+                        <input type="hidden" id="hidaddfileid" value="@Model.file_id" />
+                        <input type="hidden" id="hidtenfile" value="@Model.tenfile" />
+                        
+                        <div class="col-lg-12">
+
+                            <div class="form-group">
+                                <label for="actionnm">   Upload file:</label>
+                                <input type="file" id="fileDmCTTOUR" name="fileDmCTTOUR" asp-for="@Model.fileupload" />
+                                <p class="help-block">Chỉ upload file word,excel,pdf, file không quá 2MB;tên file không có chứa khoảng trắng ký tự đặc biệt, không có dấu tiếng việt </p>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-12">
+                            <input type="button" id="btnSaveCttour" value="Lưu" class="btn btn-primary" />
+                            <input type="button" class="btn btn-warning dongcctourdh" value="Quay lại" />
+
+                        </div>
+                    </form>
+                </div>
+                <!-- /.row (nested) -->
+
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+
+<script>
+    $(function () {
+        $(".date-picker").mask("99/99/9999");
+    });
+
+    $('.dongcctourdh').on('click', function () {
+        $('#ModalFile').hide(500);
+        $('.dsdmfile').show(500);
+    });
+
+    function LayDSDmFileDieuHanh(id) {
+
+        $.ajax({
+            url: '/QLKhachDoan/LayDSDmFileDieuHanh',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+                $('#tabcttourdieuhanhnd').html(data);
+            }
+        });
+    }
+
+    $('#btnSaveCttour').on('click', function () {
+        debugger
+        if ($('#frmdmfile').valid()) {
+
+            var formData = new FormData();
+            var fileDmCTTOUR = $('#fileDmCTTOUR')[0].files;
+            for (var i = 0; i != fileDmCTTOUR.length; i++) {
+                formData.append("fileupload", fileDmCTTOUR[i]);
+            }
+            //hidaddfileid
+            formData.append("file_id", $('#hidaddfileid').val());
+            formData.append("idtour", $('#hidaddtourid').val());
+            formData.append("tenfile", $('#hidtenfile').val());
+            $.ajax({
+                cache: false,
+                type: 'POST',
+                data: formData,
+                url: "/QLKhachDoan/EditFile",
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                success: function (response) {
+                    debugger
+                    if (response) {
+                        var id = $('#hidaddtourid').val();//lay o trang nay                        /
+                        LayDSDmFileDieuHanh(id);
+                    }
+                }
+            });
+
+        }
+
+    });
+
+</script>
+
+
+
+

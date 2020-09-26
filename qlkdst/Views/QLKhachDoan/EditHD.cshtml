@@ -1,0 +1,149 @@
+﻿@model qlkdstDB.Data.ViewModel.huongdanViewModal
+
+<script>
+
+    $(function () { // will trigger when the document is ready
+        $('.date-picker').datepicker({ dateFormat: 'dd/mm/yy' });
+
+    });
+
+</script>
+
+<script src="~/Scripts/script-custom-validator.js"></script>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Sửa hướng dẫn
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <form id="frmHD">
+
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.idtour)
+                        @Html.HiddenFor(model => model.mahd)
+
+                        <input type="hidden" id="hidaddtourid" value="@Model.idtour" />
+                        <input type="hidden" id="hidmahd" value="@Model.mahd" />
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="mahd">   Mã hướng dẫn:</label>
+                                @Html.TextBoxFor(model => model.mahd, new { @class = "form-control", @id = "txtmahd", @readonly = true })
+                                <p class="help-block"> </p>
+                            </div>
+                            <div class="form-group">
+                                <label for="tenhd">   Tên hướng dẫn:</label>
+                                @Html.TextBoxFor(model => model.tenhd, new { @class = "form-control", @id = "txtenhd" })
+                                <p class="help-block"> </p>
+                            </div>
+                            <div class="form-group">
+                                <label for="chinhanh">   Chi nhánh:</label>
+                                @Html.DropDownList("chinhanh", null, "--Chọn--", new { @class = "form-control1" })
+                                <p class="help-block"> </p>
+                            </div>
+                            <div class="form-group">
+                                <label for="actionnm">   Phái:</label>
+                                @Html.DropDownList("phai", null, null, new { @class = "form-control1" })
+                                <p class="help-block"> </p>
+                            </div>
+                            <div class="form-group">
+                                <label for="areaname">  Ngày sinh:</label>
+                                @Html.TextBoxFor(model => model.ngaysinh, new { @class = "form-control date-picker glyphicon glyphicon-calendar" })
+                                <p class="help-block"> </p>
+                            </div>
+                        </div>
+                        <!-- /.col-lg-6 (nested) -->
+                        <div class="col-lg-6">
+
+                            <div class="form-group">
+                                <label for="dienthoaidd">   Điện thoại:</label>
+                                @Html.TextBoxFor(model => model.dienthoaidd, new { @class = "form-control" })
+                                <p class="help-block"> </p>
+                            </div>
+                            <div class="form-group">
+                                <label for="hochieu">   Hộ chiếu:</label>
+                                @Html.TextBoxFor(model => model.hochieu, new { @class = "form-control" })
+                                <p class="help-block"> </p>
+                            </div>
+                            <div class="form-group">
+                                <label for="hieuluchc">  Hiệu lực hộ chiếu:</label>
+                                @Html.TextBoxFor(model => model.hieuluchc, new { @class = "form-control date-picker glyphicon glyphicon-calendar" })
+                                <p class="help-block"> </p>
+                            </div>
+
+
+                        </div>
+                        <!-- /.col-lg-6 (nested) -->
+
+                        <div class="col-lg-12">
+                            <input type="button" id="btnEditHD" value="Lưu" class="btn btn-primary" />
+                            <input type="button" class="btn btn-warning dongdmhd" value="Quay lại" />
+
+                        </div>
+                    </form>
+                </div>
+                <!-- /.row (nested) -->
+
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+
+<script>
+        $(function () {
+            $(".date-picker").mask("99/99/9999");
+        });
+
+    $('.dongdmhd').on('click', function () {
+            $('#ModalHD').hide(500);
+        $('.dshuongdan').show(500);
+        });
+
+        function LayDSHuongdan(id) {
+
+            $.ajax({
+                url: '/QLKhachDoan/LayDSHuongdan',
+                data: { id: id },
+                type: 'GET',
+                success: function (data) {
+                    $('#tabhdnd').html(data);
+                }
+            });
+        }
+
+        $('#btnEditHD').on('click', function () {
+            debugger
+            if ($('#frmHD').valid()) {
+
+                var frmHD = $('#frmHD').serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/QLKhachDoan/EditHD",
+                    data: frmHD,
+                    dataType: "json",
+                    success: function (response) {
+                        debugger
+                        if (response) {
+                            var id = $('#hidaddtourid').val();//lay o trang nay                        /
+                            LayDSHuongdan(id);
+                        }
+                    }
+                    , error: function (xhr, status, error) {
+                        alert("Có lỗi: " + error + " ,xin thông báo cho người quản lý biết!");
+                    }
+                });
+            }
+
+        });
+
+</script>
+
+
+
+

@@ -1,0 +1,262 @@
+﻿@model List<qlkdstDB.EF.dmkhachtour>
+@using qlkdst.Common
+@{
+    ViewBag.Title = "Danh sách khách đi tour";
+    Layout = null;
+
+    string sRoleName = Session["RoleName"].ToString();
+}
+
+    <div class="dskhachtour col-md-12">
+
+        @using (Html.BeginForm("SearchKhach", "QLKhachDoan", FormMethod.Get, htmlAttributes: new { @class = "form-inline" }))
+        {
+            string urlExcel = Url.Action("ImportDmKhach", "QLKhachDoan") + "/" + ViewBag.idtour;
+            string sTrangthaiTour = DungChung.GetTrangThaiTour(ViewBag.idtour);
+            <div class="col-xs-12">
+                <div class="col-xs-6">
+                    <div class="input-group">
+
+                        <span class="input-group-btn">
+                            @if (sTrangthaiTour != "3" && sTrangthaiTour != "4")//tour chua thanh ly va chua bi huy moi hien nut them
+                            {
+                                string urlExcel1 = Url.Action("PrintDSKhach", "QLKhachDoan") + "/" + ViewBag.idtour;
+
+                                @*<a href="@urlExcel" data-placement="right" class="btn btn-success" title="Thêm khách"><i class="fa fa-file-excel-o" title="Xuất Excel Rooming List">Import</i></a>*@
+                                <a class="fImport btn btn-success" href="javascript:;" title="Nhập danh sách khách"><i class="fa fa-file-excel-o">Nhập danh sách khách tour</i></a>
+
+                                <a href="@urlExcel1" data-id="@ViewBag.idtour" data-toggle="tooltip" data-placement="right" class="btn btn-warning" title="Xuất Excel danh sách khách"><i class="fa fa-print">Xuất Excel danh sách khách đi tour</i></a>
+                            }
+
+                        </span>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!--Danh sach tour-->
+        <div class="col-sm-12 col-md-12" style="overflow-x: auto">
+
+            <!--TABLE-->
+            <table class="table table-striped table-bordered table-hover table-condensed text-nowrap">
+                <thead>
+                    <tr>
+                        <th>Quản lý</th>
+                        <th>Tên Khách hàng</th>
+                        <th>hộ chiếu</th>
+                        <th>Hiệu lực</th>
+                        <th>Ngày sinh</th>
+                        <th>CMND</th>
+                        <th>Ngày cấp</th>
+                        <th>Nơi cấp</th>
+                        <th>Phái</th>
+                        <th>Điện thoại</th>
+                        <th>Quốc tịch</th>
+                    </tr>
+                </thead>
+                <tbody class="text-nowrap">
+                    @if (Model != null)
+                    {
+                        foreach (qlkdstDB.EF.dmkhachtour m in Model)
+                        {
+                            string tenphai = "";
+                            string urlDel = Url.Action("XoaKhach", "QLKhachDoan") + "/" + m.id_dsk;
+
+                    <tr>
+                        <td>
+                            @if (DungChung.GetTrangThaiTour(ViewBag.idtour) != "3")
+                            {
+                                <a id=@Html.Raw("btnEdit_" + m.id_dsk) href="javascript:;" data-id="@m.id_dsk"><i class="fa fa-edit"></i></a> <span> | </span>
+                                <a id=@Html.Raw("btnDel_" + m.id_dsk) href="javascript:;" title="Xoá hợp đồng" class="text-danger" data-id="@m.id_dsk" data-idtour="@m.idtour"><i class=" fa fa fa-trash"></i></a>
+                            }
+                        </td>
+                        <td class="text-left">@m.tenkhach</td>
+                        <td class="text-left">@m.hochieu</td>
+                        <td>@(m.hieuluchochieu.HasValue ? @m.hieuluchochieu.Value.ToString("dd/MM/yyyy") : "")</td>
+                        <td>@(m.ngaysinh.HasValue ? @m.ngaysinh.Value.ToString("dd/MM/yyyy") : "")</td>
+                        <td>@m.socmnd</td>
+                        <td>@(m.ngaycmnd.HasValue ? @m.ngaycmnd.Value.ToString("dd/MM/yyyy") : "")</td>
+                        <td>@m.noicapcmnd</td>
+                        <td>
+                            @{
+                                if (m.phai == "1")
+                                {
+                                    tenphai = "Nam";
+                                }
+                                else if (m.phai == "2")
+                                {
+                                    tenphai = "Nữ";
+                                }
+                                else if (m.phai == "3")
+                                {
+                                    tenphai = "Khác";
+                                }
+                            }
+
+                            @tenphai
+
+                        </td>
+                        <td>@m.dienthoai</td>
+                        <td>@m.quoctich</td>
+                        <td style="display:none;">
+
+                            <script>
+                                $("table").on("click", "#btnEdit_" +@m.id_dsk, function () {
+
+                                    var id = $(this).data('id');
+                                    EditKhach(id);
+                                });
+
+                                 @*$("table").on("click", "#btnViewLogHD_" +@item.offer_id, function () {
+
+                                     var id = $(this).data('id');
+                                     OFFERControl.ViewLogOffer(id);
+                                });*@
+
+                            $("table").on("click", "#btnDel_" +@m.id_dsk, function () {
+                                var id = $(this).data('id');
+                                var idtour = $(this).data('idtour');
+                                if (confirm("Xoá khách này?")) {
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/QLKhachDoan/XoaKhach",
+                                        data: { id: id },
+                                        dataType: "json",
+                                        success: function () {
+
+                                            GetDSKhachDiTour(idtour);
+                                        }
+                                        , error: function (xhr, status, error) {
+                                            alert("Có lỗi: " + error + " ,xin thông báo cho người quản lý biết!");
+                                        }
+                                    });
+
+                                }
+                            })
+
+                            </script>
+
+
+                        </td>
+                    </tr>
+                        }
+                    }
+
+                </tbody>
+
+                @{
+                    <tfoot>
+                        <tr>
+                            <td class="text-center">
+
+                                <a class="fAdd btn btn-primary" href="javascript:;"><i class="fa fa-plus">Thêm mới</i></a>
+
+                            </td>
+                        </tr>
+                    </tfoot>
+                }
+            </table>
+
+            <!--END TABLE-->
+
+        </div>
+
+        <!--/ Danh sach tour-->
+
+    </div>
+ 
+<div id="ModalKhachTour">
+    <div class="ThongtinKhachTour"></div>
+</div>
+
+<div class="modal fade in" role="dialog" id="them-khach">
+    <div class="them-khach1"></div>
+</div>
+
+<div class="modal fade in" role="dialog" id="indskhach">
+    <div class="in-dskhach"></div>
+</div>
+<script>
+
+    $('.fAdd').click(function () {
+        debugger
+        //var id = $(this).data('id');//idtour
+        var id = $('#hidtourid').val();//lay o trang Index
+        ThemKhach(id);      
+    });
+
+    $('.fImport').click(function () {
+        debugger
+        //var id = $(this).data('id');//idtour
+        var id = $('#hidtourid').val();//lay o trang Index
+        ThemKhachImport(id);
+    });
+
+    function EditKhach(id) {//id= id_dsk        
+
+            $.ajax({
+                url: '/QLKhachDoan/EditKhach',
+                data: { id: id },
+                type: 'GET',
+                success: function (data) {
+                    $('.dskhachtour').hide(500);
+                    $('#ModalKhachTour').show(500);
+                    $('.ThongtinKhachTour').html(data);
+                }
+            });       
+    }
+
+    function ThemKhach(id) {
+
+        $.ajax({
+            url: '/QLKhachDoan/ThemKhach',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+
+                $('.dskhachtour').hide(500);
+                $('#ModalKhachTour').show(500);
+                $('.ThongtinKhachTour').html(data);
+            }
+        });
+
+    }
+    function ThemKhachImport(id) {
+
+        $.ajax({
+            url: '/QLKhachDoan/ThemKhachImport',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+
+                $('.dskhachtour').hide(500);
+                $('#ModalKhachTour').show(500);
+                $('.ThongtinKhachTour').html(data);
+            }
+        });
+
+    }
+
+    @*$('.editkhach').click(function () {
+        debugger
+        var id = $(this).data('idk');//id khach
+
+        var url = '@Url.Action("EditKhach", "QLKhachDoan")' + '/' + id;      
+
+        window.location.href = url;
+    });*@
+
+    function GetDSKhachDiTour(id) {
+
+        $.ajax({
+            url: '/QLKhachDoan/LayDSKhachTour',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+                $('#tabdskhachtour').html(data);
+            }
+        });
+    }
+
+</script>

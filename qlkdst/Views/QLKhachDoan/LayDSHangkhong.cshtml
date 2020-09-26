@@ -1,0 +1,220 @@
+﻿@model List<qlkdstDB.Data.ViewModel.hangkhongViewModal>
+@using qlkdst.Common;
+@using qlkdstDB.EF;
+@{
+    ViewBag.Title = "Hàng không";
+    Layout = null;
+
+    string sRoleName = Session["RoleName"].ToString();
+}
+
+<div class="dshk col-md-12">
+
+    @using (Html.BeginForm("SearchHK", "QLKhachDoan", FormMethod.Get, htmlAttributes: new { @class = "form-inline" }))
+    {
+        string sTrangthaiTour = DungChung.GetTrangThaiTour(ViewBag.idtour);
+        <div class="col-xs-12">
+            <div class="col-xs-6">
+                <div class="input-group">
+
+                    <span class="input-group-btn">
+                        @if (sTrangthaiTour != "3" && sTrangthaiTour != "4")//tour chua thanh ly va chua bi huy moi hien nut them
+                        {
+                            string urlExcel1 = Url.Action("PrintDSHK", "QLKhachDoan") + "/" + ViewBag.idtour;
+                            <a href="@urlExcel1" data-id="@ViewBag.idtour" data-toggle="tooltip" data-placement="right" class="btn btn-warning" title="Xuất Excel"><i class="fa fa-print">Xuất Excel hàng không</i></a>
+                        }
+
+                    </span>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!--Danh sach tour-->
+    <div class="col-sm-12 col-md-12" style="overflow-x: auto">
+
+        <!--TABLE-->
+        <table class="table table-striped table-bordered table-hover table-condensed text-nowrap">
+            <thead>
+                <tr>
+                    <th>Quản lý</th>
+                    <th>Mã nhà cung cấp</th>
+                    <th>Tên nhà cung cấp</th>
+                    <th>Dịch vụ</th>
+                    <th>Hành trình</th>
+                    <th>Code booking</th>
+                    <th>Loại booking</th>
+                    <th>Chỗ cộc 1</th>
+                    <th>Tên cộc lần 1</th>
+                    <th>Chỗ cộc 2</th>
+                    <th>Tên cộc lần 2</th>
+                    <th>Chỗ cộc 3</th>
+                    <th>Tên cộc lần 3</th>
+                    <th>Số chỗ xuất vé</th>
+                    <th>Tên cộc phạt</th>
+                    <th>Tiền cộc hoàn</th>
+                    <th>Ghi chú</th>
+                </tr>
+            </thead>
+            <tbody class="text-nowrap">
+                @if (Model != null)
+                {
+
+                    foreach (qlkdstDB.Data.ViewModel.hangkhongViewModal m in Model)
+                    {
+                        
+                        string urlDel = Url.Action("XoaHK", "QLKhachDoan") + "/" + m.id;
+
+                        <tr>
+                            <td>
+                                @if (DungChung.GetTrangThaiTour(ViewBag.idtour) != "3")
+                                {
+                                    <a id=@Html.Raw("btnEdit_" + m.id) href="javascript:;" data-id="@m.id"><i class="fa fa-edit"></i></a> <span> | </span>
+                                    <a id=@Html.Raw("btnDel_" + m.id) href="javascript:;" title="Xoá hợp đồng" class="text-danger" data-id="@m.id" data-idtour="@m.idtour"><i class=" fa fa fa-trash"></i></a>
+                                }
+                            </td>
+                            <td class="text-center">@m.mancc</td>
+                            <td class="text-left">@m.tenncc</td>
+                            <td class="text-left">@m.tendv</td>
+                            <td class="text-left">@m.hanhtrinh</td>
+                            <td class="text-left">@m.codebooking</td>
+                            <td class="text-left">@m.loaibooking</td>
+                            <td class="text-left">@Html.Raw(String.Format("{0:#,##0}", m.chococ1))</td>
+                            <td class="text-left">@Html.Raw(String.Format("{0:#,##0}", m.tiencoc1))</td>
+                            <td class="text-left">@Html.Raw(String.Format("{0:#,##0}", m.chococ2))</td>
+                            <td class="text-left">@Html.Raw(String.Format("{0:#,##0}", m.tiencoc2))</td>
+                            <td class="text-left">@Html.Raw(String.Format("{0:#,##0}", m.chococ3))</td>
+                            <td class="text-left">@Html.Raw(String.Format("{0:#,##0}", m.tiencoc3))</td>
+                            <td class="text-left">@Html.Raw(String.Format("{0:#,##0}", m.sochoxuatve))</td>
+                            <td class="text-left">@Html.Raw(String.Format("{0:#,##0}", m.tiencocphat))</td>
+                            <td class="text-left">@Html.Raw(String.Format("{0:#,##0}", m.tiencochoan))</td>
+                            <td class="text-left">@m.ghichu</td>
+                            <td style="display:none;">
+
+                                <script>
+                                $("table").on("click", "#btnEdit_" +@m.id, function () {
+
+                                    var id = $(this).data('id');
+                                    EditHK(id);
+                                });
+
+                                 @*$("table").on("click", "#btnViewLogHD_" +@item.offer_id, function () {
+
+                                     var id = $(this).data('id');
+                                     OFFERControl.ViewLogOffer(id);
+                                });*@
+
+                            $("table").on("click", "#btnDel_" +@m.id, function () {
+                                var id = $(this).data('id');
+                                var idtour = $(this).data('idtour');
+                                if (confirm("Xoá mục này?")) {
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/QLKhachDoan/XoaHK",
+                                        data: { id: id },
+                                        dataType: "json",
+                                        success: function () {
+
+                                            LayDSHangkhong(idtour);
+                                        }
+                                        , error: function (xhr, status, error) {
+                                            alert("Có lỗi: " + error + " ,xin thông báo cho người quản lý biết!");
+                                        }
+                                    });
+
+                                }
+                            })
+
+                                </script>
+
+
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+
+            @{
+                <tfoot>
+                    <tr>
+                        <td class="text-center">
+
+                            <a class="fAdd btn btn-primary" href="javascript:;"><i class="fa fa-plus">Thêm mới</i></a>
+
+                        </td>
+                    </tr>
+                </tfoot>
+            }
+        </table>
+
+        <!--END TABLE-->
+
+    </div>
+
+    <!--/ Danh sach tour-->
+
+</div>
+
+<div id="ModalHK">
+    <div class="ThongtinHK"></div>
+</div> 
+
+<div class="modal fade in" role="dialog" id="indshk">
+    <div class="in-dshk"></div>
+</div>
+<script>
+
+    $('.fAdd').click(function () {
+        debugger
+        //var id = $(this).data('id');//idtour
+        var id = $('#hidtourid').val();//lay o trang Index
+        ThemHK(id);
+    });   
+
+    function EditHK(id) {//id= id
+
+            $.ajax({
+                url: '/QLKhachDoan/EditHK',
+                data: { id: id },
+                type: 'GET',
+                success: function (data) {
+                    $('.dshk').hide(500);
+                    $('#ModalHK').show(500);
+                    $('.ThongtinHK').html(data);
+                }
+            });
+    }
+
+    function ThemHK(id) {
+
+        $.ajax({
+            url: '/QLKhachDoan/ThemHK',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+
+                $('.dshk').hide(500);
+                $('#ModalHK').show(500);
+                $('.ThongtinHK').html(data);
+            }
+        });
+
+    }    
+
+    
+
+    function LayDSHangkhong(id) {
+
+        $.ajax({
+            url: '/QLKhachDoan/LayDSHangkhong',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+                $('#tabhknd').html(data);
+            }
+        });
+    }
+
+</script>

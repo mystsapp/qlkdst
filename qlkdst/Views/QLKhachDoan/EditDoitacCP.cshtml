@@ -1,0 +1,226 @@
+﻿@model qlkdstDB.Data.ViewModel.doitaccpViewModal
+
+<script>
+
+    $(function () { // will trigger when the document is ready
+        $('.date-picker').datepicker({ dateFormat: 'dd/mm/yy' });
+
+    });
+
+</script>
+
+<script src="~/Scripts/script-custom-validator.js"></script>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Sửa đối tác/ chi phí
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <form id="frmDtcp" enctype="multipart/form-data" method="post">
+
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.Id)
+                        @Html.HiddenFor(model => model.del)
+                        @Html.HiddenFor(model => model.computer)
+                        @Html.HiddenFor(model => model.idtour)
+                        @Html.HiddenFor(model => model.sgtcode)
+                        <input type="hidden" id="hidid" value="@Model.Id" />
+                        <input type="hidden" id="hidaddtourid" value="@Model.idtour" />
+                        <input type="hidden" id="hidaddsgtcode" value="@Model.sgtcode" />
+                        <div class="col-lg-6">
+
+                            <div class="form-group">
+                                <label for="areaname">   Mã:</label>
+                                @Html.TextBoxFor(model => model.mancc, new { @class = "form-control", @id = "txmancc" })
+                                <p class="help-block"> </p>
+                            </div>
+                            <div class="form-group">
+                                <label for="actionnm">   Tên nhà cung cấp:</label>
+                                @Html.TextBoxFor(model => model.tenncc, new { @class = "form-control", @id = "txtenncc" })
+                                <p class="help-block"> </p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="actionnm">   Dịch vụ:</label>
+                                @Html.DropDownList("iddv", null, "--Chọn--", new { @class = "form-control1", @id = "txdichvu" })
+                                <p class="help-block"> </p>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Tiền mặt</label>
+
+                                Tiền mặt: @Html.RadioButton("tienmat", "true", true, new { @id = "tienmat" })
+                                Không: @Html.RadioButton("tienmat", "false", new { @id = "tienmat" })
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="actionnm">  Ngoại tệ:</label>
+                                @Html.TextBoxFor(model => model.ngoaite, new { @class = "form-control numbers", @id = "txngoaite" })
+                                <p class="help-block"> </p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="controllernm">     Ngày tạo:</label>
+                                @Html.TextBoxFor(model => model.ngaynhap, new { @id = "txtngaytao", @class = "form-control", @readonly = "readonly" })
+                                <p class="help-block"> </p>
+                            </div>
+
+                        </div>
+                        <!-- /.col-lg-6 (nested) -->
+                        <div class="col-lg-6">
+
+
+
+                            <div class="form-group">
+                                <label for="actionnm">  Loại tiền:</label>
+                                @Html.TextBoxFor(model => model.loaitien, new { @class = "form-control", @id = "txloaitien" })
+                                <p class="help-block"> </p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="actionnm">  Tỷ giá:</label>
+                                @Html.TextBoxFor(model => model.tigia, new { @class = "form-control numbers", @id = "txtigia" })
+                                <p class="help-block"> </p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="actionnm">  Tiền VNĐ:</label>
+                                @Html.TextBoxFor(model => model.tienvnd, new { @class = "form-control numbers", @id = "txtienvnd" })
+                                <p class="help-block"> </p>
+                            </div>
+                            <div class="form-group">
+                                <label for="actionnm">  Số khách:</label>
+                                @Html.TextBoxFor(model => model.sokhach, new { @class = "form-control numbers", @id = "txsokhach" })
+                                <p class="help-block"> </p>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="areaname">  Người tạo:</label>
+                                @Html.TextBoxFor(model => model.nguoinhap, new { @id = "txtnguoitao", @class = "form-control", @readonly = "readonly" })
+                                <p class="help-block"> </p>
+                            </div>
+
+                        </div>
+                        <!-- /.col-lg-6 (nested) -->
+
+                        <div class="col-lg-12">
+
+                            <div class="form-group">
+                                <label for="actionnm">   Nội dung / Code booking:</label>
+                                @Html.TextAreaFor(model => model.noidung, 10, 25, new { @id = "txtnoidung", @class = "form-control" })
+                                <p class="help-block"> </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+
+                            <div class="form-group">
+                                <label for="actionnm">   Ghi chú:</label>
+                                @Html.TextAreaFor(model => model.ghichu, 10, 25, new { @id = "txghichu", @class = "form-control" })
+                                <p class="help-block"> </p>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+
+                            <div class="form-group">
+                                <label for="actionnm">   Upload invoice:</label>
+                                <input type="file" id="fileDmKhach" name="fileDmKhach" asp-for="@Model.uploadInvoice" />
+                                <p class="help-block">Chỉ upload file jpg,jpeg,png, file không quá 2MB;tên file không có chứa khoảng trắng ký tự đặc biệt, không có dấu tiếng việt </p>
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-12">
+                            <input type="button" id="btnEditDtcp" value="Lưu" class="btn btn-primary" />
+                            <input type="button" class="btn btn-warning dongdtcp" value="Quay lại" />
+
+                        </div>
+                    </form>
+                </div>
+                <!-- /.row (nested) -->
+
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+
+<script>
+    $(function () {
+        $(".date-picker").mask("99/99/9999");
+    });
+
+    $('.dongdtcp').on('click', function () {
+        $('#ModalDoitacCP').hide(500);
+        $('.dschiphidv').show(500);
+    });
+
+    function LayDSDoitacCP(id) {
+
+        $.ajax({
+            url: '/QLKhachDoan/LayDSDoitacCP',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+                $('#tabdoitaccpnd').html(data);
+            }
+        });
+    }
+
+    $('#btnEditDtcp').on('click', function () {
+        debugger
+        if ($('#frmDtcp').valid()) {
+
+            var formData = new FormData();
+            var fileDmKhach = $('#fileDmKhach')[0].files;
+            for (var i = 0; i != fileDmKhach.length; i++) {
+                formData.append("uploadInvoice", fileDmKhach[i]);
+            }
+            formData.append("Id", $('#hidid').val());
+            formData.append("idtour", $('#hidaddtourid').val());
+            formData.append("sgtcode", $('#hidaddsgtcode').val());
+            formData.append("mancc", $('#txmancc').val());
+            formData.append("tenncc", $('#txtenncc').val());
+            formData.append("iddv", $('#txdichvu').val());
+            formData.append("tienmat", $("#tienmat:checked").val());
+            formData.append("ngoaite", $('#txngoaite').val());
+            formData.append("loaitien", $('#txloaitien').val());
+            formData.append("tigia", $('#txtigia').val());
+            formData.append("tienvnd", $('#txtienvnd').val());
+            formData.append("sokhach", $('#txsokhach').val());
+            formData.append("noidung", $('#txtnoidung').val());
+            formData.append("ghichu", $('#txghichu').val());
+
+            $.ajax({
+                cache: false,
+                type: 'POST',
+                data: formData,
+                url: "/QLKhachDoan/EditDoitacCP",
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                success: function (response) {
+                    debugger
+                    if (response) {
+                        var id = $('#hidaddtourid').val();//idtour lay o trang nay                        /
+                        LayDSDoitacCP(id);
+                    }
+                }
+            });
+
+        }
+
+    });
+
+</script>
+
+
+

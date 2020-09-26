@@ -1,0 +1,189 @@
+﻿@model List<qlkdstDB.Data.ViewModel.dmfileViewModal>
+@using qlkdst.Common
+@{
+    ViewBag.Title = " FILE CHIẾT TÍNH";
+    Layout = null;
+    string mTrangThaiTour = DungChung.GetTrangThaiTour(ViewBag.idtour);
+    string sRole = Session["RoleName"] == null ? "" : Session["RoleName"].ToString();
+
+}
+
+<div class="dsdmfilechiettinh col-md-12">
+
+
+    <!--Danh sach tour-->
+    <div class="col-sm-12 col-md-12" style="overflow-x: auto">
+
+        <!--TABLE-->
+        <table class="table table-striped table-bordered table-hover table-condensed text-nowrap">
+            <tr id="LoadingStatusChiphidv" style="color:red"></tr>
+            <tr>
+                <th>Quản lý</th>
+                <th>Tên file chiết tính</th>
+                <th>Người upload</th>
+                <th>Ngày upload</th>
+            </tr>
+            <tbody class="text-nowrap">
+                @if (Model != null)
+                {
+                    foreach (qlkdstDB.Data.ViewModel.dmfileViewModal m in Model)
+                    {
+
+                        <tr>
+                            <td>
+                                @if (mTrangThaiTour != "3")
+                                {
+                                    <a id=@Html.Raw("btnEdit_" + m.file_id) href="javascript:;" data-id="@m.file_id" data-idtour="@m.idtour"><i class="fa fa-edit"></i></a> <span> | </span>
+                                    <a id=@Html.Raw("btnDel_" + m.file_id) href="javascript:;" title="Xoá biên nhận" class="text-danger" data-id="@m.file_id" data-idtour="@m.idtour"><i class=" fa fa fa-trash"></i></a>
+                                }
+                            </td>
+
+                            <td>
+                                @{
+                                    string sTenfile = "";
+                                    if (!String.IsNullOrEmpty(m.tenfile))
+                                    {
+                                        sTenfile = m.tenfile;
+                                        @Html.ActionLink(sTenfile, "DownloadDocument", new { loaifile = "CHIETTINH", tenfile = sTenfile });
+
+
+                                    }
+                                    else
+                                    {
+                                        @m.tenfile;
+                                    }
+
+                                }
+
+                            </td>
+                            <td>@m.nguoitao</td>
+                            <td>@(m.ngaytao.HasValue ? @m.ngaytao.Value.ToString("dd/MM/yyyy") : "")</td>
+
+                            <td style="display:none;">
+
+                                <script>
+                                $("table").on("click", "#btnEdit_" +@m.file_id, function () {
+
+                                    var id = $(this).data('id');
+                                    var idtour = $(this).data('idtour');
+
+                                    EditFileChietTinh(id, idtour);
+                                });
+
+
+
+                            $("table").on("click", "#btnDel_" +@m.file_id, function () {
+                                var id = $(this).data('id');
+                                var idtour = $(this).data('idtour');
+                                if (confirm("Xoá nội dung này?")) {
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/QLKhachDoan/XoaFileChietTinh",
+                                        data: { id: id },
+                                        dataType: "json",
+                                        success: function () {
+
+                                            LayDSFileChietTinh(idtour);
+                                        }
+                                        , error: function (xhr, status, error) {
+                                            alert("Có lỗi: " + error + " ,xin thông báo cho người quản lý biết!");
+                                        }
+                                    });
+
+                                }
+                            })
+
+                                </script>
+
+
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+
+            @{
+                <tfoot>
+                    <tr>
+                        <td class="text-center">
+
+                            <a class="fAdd btn btn-primary" href="javascript:;"><i class="fa fa-plus">Thêm mới</i></a>
+
+                        </td>
+                    </tr>
+                </tfoot>
+            }
+        </table>
+
+        <!--END TABLE-->
+
+    </div>
+
+    <!--/ Danh sach tour-->
+
+</div>
+
+
+<div id="ModalFileChietTinh">
+    <div class="ThongtinFileChietTinh"></div>
+</div>
+
+<script>
+
+    $('.fAdd').click(function () {
+        debugger
+        var id = $('#hidtourid').val();//lay o trang Index
+        ThemFileChietTinh(id);
+    });
+
+    function EditFileChietTinh(id, idtour) {
+
+        $.ajax({
+            url: '/QLKhachDoan/EditFileChietTinh',
+            data: { id: id, idtour: idtour },
+            type: 'GET',
+            success: function (data) {
+
+                $('.dsdmfilechiettinh').hide(500);
+                $('#ModalFileChietTinh').show(500);
+                $('.ThongtinFileChietTinh').html(data);
+            }
+        });
+
+    }
+
+    function ThemFileChietTinh(id) {
+
+        $.ajax({
+            url: '/QLKhachDoan/ThemFileChietTinh',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+
+                $('.dsdmfilechiettinh').hide(500);
+                $('#ModalFileChietTinh').show(500);
+                $('.ThongtinFileChietTinh').html(data);
+            }
+        });
+
+    }
+
+    function LayDSFileChietTinh(id) {
+
+        $.ajax({
+            url: '/QLKhachDoan/LayDSFileChietTinh',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+                $('#tabfilechiettinhnd').html(data);
+            }
+        });
+    }
+
+</script>
+
+
+
+

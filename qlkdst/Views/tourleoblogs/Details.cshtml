@@ -1,0 +1,99 @@
+﻿@model qlkdstDB.EF.tourleoblog
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>tourleoblog</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.sgtcode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sgtcode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.makh)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.makh)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.chudetour)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.chudetour)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.batdau)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.batdau)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ketthuc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ketthuc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tuyentq)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tuyentq)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.diemtq)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.diemtq)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.chuongtrinhtour)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.chuongtrinhtour)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sokhachdk)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sokhachdk)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.thongbaoloi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.thongbaoloi)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.idlog }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

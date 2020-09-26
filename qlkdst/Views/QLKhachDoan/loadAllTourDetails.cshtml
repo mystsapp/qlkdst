@@ -1,0 +1,459 @@
+﻿@model qlkdstDB.Data.ViewModel.tourViewModel
+@{ 
+    string sRoleName = Session["RoleName"].ToString();
+}
+<div class="col-md-12 container" style="display:block">
+    <div style="margin-top:50px;">
+
+        <div class="panel panel-default panel-primary" style="background-color:#EEEEEE">
+            <div class="row" id="chitiettour">
+                @Html.Partial("~/Views/QLKhachDoan/CTTour.cshtml", Model.tour);
+            </div>
+        </div>
+        <div class="row">
+            <nav class="nav nav-tabs">
+                <div class="col-xs-12 col-md-12">
+                    <ul class="nav nav-tabs">
+
+                        @if (sRoleName.ToLower() != "dieuhanh")
+                        {
+                            <li><a data-toggle="tab" href="#tabcttour" class="_chuongtrinhtour">Chương trình tour</a></li>
+                            <li><a data-toggle="tab" href="#tabthanhly" class="_thanhlyhd">Thanh lý hợp đồng</a></li>
+                            <li><a data-toggle="tab" href="#tabdv" class="_cacdv">Các dịch vụ</a></li>
+                            <li><a data-toggle="tab" href="#tabfiledskhach" class="_filedskhach">Danh sách khách</a></li>
+                            @*<li><a data-toggle="tab" href="#tabphongks">Rooming List</a></li>*@
+                            <li><a data-toggle="tab" href="#tabbiennhan" class="_biennhan">Biên nhận</a></li>
+                            <li><a data-toggle="tab" href="#tabvemaybay" class="_vemb">Vé máy bay</a></li>
+                            <li><a data-toggle="tab" href="#tabthongtin" class="_thongtin">Thông tin</a></li>
+                            <li><a data-toggle="tab" href="#tabfilehopdong" class="_filehopdong">File Hợp Đồng</a></li>
+                            <li><a data-toggle="tab" href="#tabfilechiettinh" class="_filechiettinh">File Chiết Tính</a></li>
+
+                        }
+
+
+                        @if (sRoleName.ToLower() == "dieuhanh" || sRoleName.ToLower() == "superadmin")
+                        {
+
+                            <li><a data-toggle="tab" href="#tabdskhach" class="_dskhachtour">Danh sách khách</a></li>
+                            <li><a data-toggle="tab" href="#tabcttourdieuhanh" class="_cttourdieuhanh">Chương trình tour</a></li>
+                            <li><a data-toggle="tab" href="#tabdoitaccp" class="_doitaccp">Đối tác/ Chi phí</a></li>
+                            <li><a data-toggle="tab" href="#tabhk" class="_hk">Hàng không</a></li>
+                            <li><a data-toggle="tab" href="#tabvisa" class="_visa">Visa</a></li>
+                            <li><a data-toggle="tab" href="#tabks" class="_ks">Khách sạn</a></li>
+                            <li><a data-toggle="tab" href="#tabhd" class="_hd">Hướng dẫn</a></li>
+
+                        }
+
+                    </ul>
+                </div>
+            </nav>
+            <!--tab contain-->
+            <!--Tab containt-->
+            <div class="tab-content" style="min-height:500px">
+                <!--Tab THONG TIN-->
+                <div id="tabthanhly" class="tab-pane fade in">
+                    <div id="tabthanhlynd" class="page-scroll scroll" style="height:400px;">
+                        @Html.Partial("~/Views/QLKhachDoan/LayDSThanhLy.cshtml", Model.tour)
+                    </div>
+                </div>
+                <!--/Tabl THONG TIN-->
+                <!--Tab CT TOUR-->
+                <div id="tabcttour" class="tab-pane fade in">
+                    <div class="page-scroll scroll" style="height:400px;">
+                        <div class="panel-body" id="precttour">
+                            @Html.Partial("~/Views/QLKhachDoan/LayDSCTTour.cshtml", Model.tour)
+                        </div>
+                    </div>
+                </div>
+                <!--/Tabl CT TOUR-->
+                <!--Tab FILE HOP DONG-->
+                <div id="tabfilehopdong" class="tab-pane fade in">
+                    <div id="tabfilehopdongnd" class="page-scroll scroll">
+                        @Html.Partial("~/Views/QLKhachDoan/LayDSFileHopDong.cshtml", Model.lstfilehopdong)
+                    </div>
+                </div>
+                <!--/Tabl FILE HOP DONG-->
+
+                <!--Tab FILE CHIET TINH-->
+                <div id="tabfilechiettinh" class="tab-pane fade in">
+                    <div id="tabfilechiettinhnd" class="page-scroll scroll">
+                        @Html.Partial("~/Views/QLKhachDoan/LayDSFileChietTinh.cshtml", Model.lstfilechiettinh)
+                    </div>
+                </div>
+                <!--/Tabl FILE CHIET TINH-->
+
+                <!--Tab DOI TAC VA CHI PHI-->
+
+                @if (sRoleName.ToLower() == "dieuhanh" || sRoleName.ToLower() == "superadmin")
+                {
+
+                    <!--Tab CT TOUR DIEU HANH-->
+                    <div id="tabcttourdieuhanh" class="tab-pane fade in">
+                        <div id="tabcttourdieuhanhnd" class="page-scroll scroll">
+                            @Html.Partial("~/Views/QLKhachDoan/LayDSDmFileDieuHanh.cshtml", Model.lstdmfileviewmodel)
+                        </div>
+                    </div>
+                    <!--/Tabl CT TOUR-->
+
+                    <div id="tabdoitaccp" class="tab-pane fade in">
+                        <div id="tabdoitaccpnd" class="page-scroll scroll">
+                            @Html.Partial("~/Views/QLKhachDoan/LayDSDoitacCP.cshtml", Model.lstdoitacCP)
+                        </div>
+                    </div>
+
+                    <div id="tabhk" class="tab-pane fade in">
+                        <div id="tabhknd" class="page-scroll scroll">
+                            @Html.Partial("~/Views/QLKhachDoan/LayDSHangKhong.cshtml", Model.lsthkviewmodel)
+                        </div>
+                    </div>
+
+                    <div id="tabvisa" class="tab-pane fade in">
+                        <div id="tabvisand" class="page-scroll scroll">
+                            @Html.Partial("~/Views/QLKhachDoan/LayDSVisa.cshtml", Model.lstvisa)
+                        </div>
+                    </div>
+
+                    <div id="tabks" class="tab-pane fade in">
+                        <div id="tabksnd" class="page-scroll scroll">
+                            @Html.Partial("~/Views/QLKhachDoan/LayDSKhachsan.cshtml", Model.lstks)
+                        </div>
+                    </div>
+
+                    <div id="tabhd" class="tab-pane fade in">
+                        <div id="tabhdnd" class="page-scroll scroll">
+                            @Html.Partial("~/Views/QLKhachDoan/LayDSHuongdan.cshtml", Model.lsthdviewmodel)
+                        </div>
+                    </div>
+
+                }
+
+                <!--Tab DOI TAC VA CHI PHI-->
+                <!--Tab  DICH VU-->
+                <div id="tabdv" class="tab-pane fade in">
+                    <div class="panel panel-default panel-primary" style="background-color:#EEEEEE">
+                        <div class="panel-body" id="pretabdv">
+                            @Html.Partial("~/Views/QLKhachDoan/LayDSCacdichvu.cshtml", Model.tour)
+                        </div>
+                    </div>
+                </div>
+                <!--/  DICH VU-->
+                <!--Tab CT TOUR-->
+                <div id="tabfiledskhach" class="tab-pane fade in">
+                    <div class="page-scroll scroll" style="height:400px;">
+                        <div class="panel-body" id="tabfiledskhachnd">
+                            @Html.Partial("~/Views/QLKhachDoan/LayFileUploadDanhsachKhach.cshtml", Model.tour)
+                        </div>
+                    </div>
+                </div>
+                <!--/Tabl CT TOUR-->
+                <!--Tab  -->
+                <!--Tab ds khach-->
+                <div id="tabdskhach" class="tab-pane fade in" style="overflow-x: auto">
+                    <div id="tabdskhachtour" class="page-scroll scroll" style="height:400px;">
+                        @Html.Partial("~/Views/QLKhachDoan/LayDSKhachTour.cshtml", Model.lstdmkhachtour)
+                    </div>
+
+                </div>
+                <!--/Tabl -->
+                <!--Tab  -->
+                <div id="tabphongks" class="tab-pane fade in">
+                    <div id="tabdataphongks" class="page-scroll scroll"></div>
+                </div>
+                <!--/Tabl -->
+                <!--Tab  -->
+                <div id="tabbiennhan" class="tab-pane fade in">
+                    <div id="tabbiennhannoidung" class="page-scroll scroll">
+                        @Html.Partial("~/Views/QLKhachDoan/LayDSBienNhan.cshtml", Model.lstbiennhan)
+
+                    </div>
+                </div>
+                <!--/Tabl -->
+                <!--Tab  -->
+                <div id="tabvemaybay" class="tab-pane fade in">
+
+                    <div id="tabvemaybaynoidung" class="page-scroll scroll">
+
+                        @Html.Partial("~/Views/QLKhachDoan/LayDSVMB.cshtml", Model.tour)
+
+                    </div>
+                </div>
+                <!--/Tabl -->
+                <!--Tab  -->
+                <div id="tabthongtin" class="tab-pane fade in">
+                    <div id="tabthongtinnd" class="page-scroll scroll">
+
+                        @Html.Partial("~/Views/QLKhachDoan/LayDSThongtin.cshtml", Model.lstdsthongtin)
+
+                    </div>
+                </div>
+                <!--/Tabl -->
+            </div>
+            <!--END tab contain-->
+        </div>
+
+    </div>
+ 
+
+
+
+</div>
+
+
+
+
+<script>
+
+    $('_thanhlyhd').click(function () {
+        debugger
+        
+        var id = $('#hidtourid').val();//lay o trang Index
+        LayDSThanhLy(id);
+    });
+
+    //_chuongtrinhtour
+    $('_chuongtrinhtour').click(function () {
+        debugger
+        
+        var id = $('#hidtourid').val();//lay o trang Index
+        LayDSCTTour(id);
+    });
+
+    function LayDSCTTour(id) {
+        debugger
+        $.ajax({
+            url: '/QLKhachDoan/LayDSCTTour',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+                $('#precttour').html(data);
+            }
+        });
+    }
+
+    //hop dong
+    $('_filehopdong').click(function () {
+        debugger
+
+        var id = $('#hidtourid').val();//lay o trang Index
+        LayDSFileHopDong(id);
+    });
+
+    function LayDSFileHopDong(id) {
+
+        $.ajax({
+            url: '/QLKhachDoan/LayDSFileHopDong',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+                $('#tabfilehopdongnd').html(data);
+            }
+        });
+    }
+
+    //chiet tinh
+    $('_filechiettinh').click(function () {
+        debugger
+
+        var id = $('#hidtourid').val();//lay o trang Index
+        LayDSFileChietTinh(id);
+    });
+
+    function LayDSFileChietTinh(id) {
+
+        $.ajax({
+            url: '/QLKhachDoan/LayDSFileChietTinh',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+                $('#tabfilechiettinhnd').html(data);
+            }
+        });
+    }
+
+
+    //_cacdv
+    $('_cacdv').click(function () {
+        debugger
+        var id = $('#hidtourid').val();//lay o trang Index
+        LayDSCacdichvu(id);
+    });
+
+    //_filedskhach danh cho nhom user khong phai dieu hanh
+    $('_filedskhach').click(function () {
+        debugger
+        var id = $('#hidtourid').val();//lay o trang Index
+        LayFileUploadDanhsachKhach(id);
+    });
+
+    function LayFileUploadDanhsachKhach(id) {
+        debugger
+        $.ajax({
+            url: '/QLKhachDoan/LayFileUploadDanhsachKhach',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+                $('#tabfiledskhachnd').html(data);
+            }
+        });
+    }
+
+    //visa
+    $('_visa').click(function () {
+        debugger
+        var id = $('#hidtourid').val();//lay o trang Index
+        LayDSVisa(id);
+    });
+
+    function LayDSVisa(id) {
+
+        $.ajax({
+            url: '/QLKhachDoan/LayDSVisa',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+                $('#tabvisand').html(data);
+            }
+        });
+    }
+
+    //_cttourdieuhanh
+    $('_cttourdieuhanh').click(function () {
+        debugger
+        var id = $('#hidtourid').val();//lay o trang Index
+        LayDSDmFileDieuHanh(id);
+    });
+
+    function LayDSDmFileDieuHanh(id) {
+
+        $.ajax({
+            url: '/QLKhachDoan/LayDSDmFileDieuHanh',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+                $('#tabcttourdieuhanhnd').html(data);
+            }
+        });
+    }
+
+    //_cp
+    $('_doitaccp').click(function () {
+        debugger
+        var id = $('#hidtourid').val();//lay o trang Index
+        LayDSDoitacCP(id);
+    });
+
+    function LayDSDoitacCP(id) {
+
+        $.ajax({
+            url: '/QLKhachDoan/LayDSDoitacCP',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+                $('#tabdoitaccpnd').html(data);
+            }
+        });
+    }
+
+    //hang khong
+    $('_hk').click(function () {
+        debugger
+        var id = $('#hidtourid').val();//lay o trang Index
+        LayDSHangkhong(id);
+    });
+
+    function LayDSHangkhong(id) {
+
+        $.ajax({
+            url: '/QLKhachDoan/LayDSHangkhong',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+                $('#tabhknd').html(data);
+            }
+        });
+    }
+
+    $('_dskhachtour').click(function () {
+
+        var id = $('#hidtourid').val();//lay o trang Index
+        GetDSKhachDiTour(id);
+    });   
+
+    //_vemb
+    $('_vemb').click(function () {
+        debugger
+        var id = $('#hidtourid').val();//lay o trang Index
+        LayDSVMB(id);
+    });
+
+    //LayDSVMB
+    function LayDSVMB(id) {
+        debugger
+        $.ajax({
+            url: '/QLKhachDoan/LayDSVMB',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+                $('#tabvemaybaynoidung').html(data);
+            }
+        });
+    }
+
+    function LayDSThanhLy(id) {
+        debugger
+        $.ajax({
+            url: '/QLKhachDoan/LayDSThanhLy',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+                $('#tabthanhlynd').html(data);
+            }
+        });
+    }
+
+   
+
+    function LayDSCacdichvu(id) {
+        debugger
+        $.ajax({
+            url: '/QLKhachDoan/LayDSCacdichvu',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+                $('#pretabdv').html(data);
+            }
+        });
+    }
+
+    function GetDSKhachDiTour(id) {
+        
+        $.ajax({
+            url: '/QLKhachDoan/LayDSKhachTour',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+                $('#tabdskhachtour').html(data);
+            }
+        });
+    }
+
+    //thong tin tour
+    $('_thongtin').click(function () {
+        debugger
+        var id = $('#hidtourid').val();//lay o trang Index
+        LayDSThongtin(id);
+    });
+
+    function LayDSThongtin(id) {
+
+        $.ajax({
+            url: '/QLKhachDoan/LayDSThongtin',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+                $('#tabthongtinnd').html(data);
+            }
+        });
+    }
+
+</script>

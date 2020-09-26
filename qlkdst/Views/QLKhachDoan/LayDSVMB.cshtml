@@ -1,0 +1,35 @@
+﻿@model qlkdstDB.EF.tour
+@using qlkdst.Common
+@{
+    ViewBag.Title = "DANH SÁCH VÉ MÁY BAY";
+    Layout = null;
+    string sRoleName = Session["RoleName"].ToString();
+}
+
+<div class="ds col-md-12">
+
+    <!--Danh sach tour-->
+    <div class="col-sm-12 col-md-12" style="overflow-x: auto">
+        <h3>File vé máy bay</h3>
+        @{
+            string sFilePath = ViewBag.ViewUploadPath + Model.filevemaybay;
+
+            string encodePath = DungChung.FTP_PATH + DungChung.VEMAYBAY_FTP_PATH + Model.filevemaybay;
+            encodePath = encodePath.Replace(":", "aabbccddee");
+            encodePath = encodePath.Replace("/", "asdfghjkl");
+            encodePath = encodePath.Replace("+", "aqwsedrf");
+
+        }
+
+        @if (Model.filevemaybay != null)
+        {
+            <a href="@Url.Action("ShowSoftwareNewJsTreeFTP", "Vmb",new { path = encodePath })" target="_blank">
+                @Model.filevemaybay
+            </a>
+        }
+
+    </div>
+
+    <!--/ Danh sach tour-->
+
+</div>

@@ -1,0 +1,176 @@
+﻿@model List<qlkdstDB.EF.khachsan>
+@using qlkdst.Common;
+@using qlkdstDB.EF;
+@{
+    ViewBag.Title = " KHÁCH SẠN";
+    Layout = null;
+    string mTrangThaiTour = DungChung.GetTrangThaiTour(ViewBag.idtour);
+    string sRole = Session["RoleName"] == null ? "" : Session["RoleName"].ToString();
+
+}
+
+<div class="dskhachsan col-md-12">
+
+
+    <!--Danh sach tour-->
+    <div class="col-sm-12 col-md-12" style="overflow-x: auto">
+
+        <!--TABLE-->
+        <table class="table table-striped table-bordered table-hover table-condensed text-nowrap">
+            
+            <tr>
+                <th>Quản lý</th>
+                <th>STT</th>
+                <th>Checkin</th>
+                <th>Checkout</th>
+                <th>Deadline</th>
+                <th>Mã khách sạn</th>
+                <th>Tên Khách sạn</th>
+                <th>Loại giá</th>
+                <th>Tỉnh thành phố</th>
+                <th>Số phòng</th>
+                <th>Ghi chú</th>
+                
+            </tr>
+            <tbody class="text-nowrap">
+                @if (Model != null)
+                {
+                    foreach (khachsan m in Model)
+                    {
+
+                <tr>
+                    <td>
+                        @if (mTrangThaiTour != "3")
+                        {
+                            <a id=@Html.Raw("btnEdit_" + m.Idks) href="javascript:;" data-id="@m.Idks"><i class="fa fa-edit"></i></a> <span> | </span>
+                            <a id=@Html.Raw("btnDel_" + m.Idks) href="javascript:;" title="Xoá mục này" class="text-danger" data-id="@m.Idks" data-idtour="@m.idtour"><i class=" fa fa fa-trash"></i></a>
+                        }
+                    </td>
+                    <td>@m.stt</td>
+                    <td>@(m.checkin.HasValue ? @m.checkin.Value.ToString("dd/MM/yyyy") : "")</td>
+                    <td>@(m.checkout.HasValue ? @m.checkout.Value.ToString("dd/MM/yyyy") : "")</td>
+                    <td>@(m.deadline.HasValue ? @m.deadline.Value.ToString("dd/MM/yyyy") : "")</td>
+                    <td>@m.maks</td>
+                    <td>@m.tenks</td>
+                    <td>@m.loaigia</td>
+                    <td>@m.tinhtp</td>
+                    <td>@m.sophong</td>
+                    <td>@m.ghichu</td>
+                    <td style="display:none;">
+                        <script>
+
+                                    $("table").on("click", "#btnEdit_@m.Idks" , function () {
+
+                                        var id = $(this).data('id');
+                                        EditKS(id);
+                                    });
+
+                                     $("table").on("click", "#btnDel_@m.Idks", function () {
+                                            var id = $(this).data('id');//id=Idks
+                                            var idtour = $(this).data('idtour');
+                                            if (confirm("Xoá nội dung này?")) {
+
+                                                $.ajax({
+                                                    type: "POST",
+                                                    url: "/QLKhachDoan/XoaKS",
+                                                    data: { id: id },
+                                                    dataType: "json",
+                                                    success: function () {
+                                                        LayDSKhachsan(idtour);
+                                                    }
+                                                    , error: function (xhr, status, error) {
+                                                        alert("Có lỗi: " + error + " ,xin thông báo cho người quản lý biết!");
+                                                    }
+                                                });
+
+                                            }
+                                     })
+
+                        </script>
+
+                    </td>
+                </tr>
+                    }
+                }
+
+            </tbody>
+
+            @{
+                <tfoot>
+                    <tr>
+                        <td class="text-center">
+
+                            <a class="fAdd btn btn-primary" href="javascript:;"><i class="fa fa-plus">Thêm mới</i></a>
+
+                        </td>
+                    </tr>
+                </tfoot>
+            }
+        </table>
+
+        <!--END TABLE-->
+
+    </div>
+
+    <!--/ Danh sach tour-->
+
+</div>
+
+
+<div id="ModalKS">
+    <div class="ThongtinKS"></div>
+</div>
+<script>
+
+    $('.fAdd').click(function () {
+        debugger
+        var id = $('#hidtourid').val();//lay o trang Index
+        ThemKS(id);
+    });
+
+    function EditKS(id) {
+
+        $.ajax({
+            url: '/QLKhachDoan/EditKS',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+                $('.dskhachsan').hide(500);
+                $('#ModalKS').show(500);
+                $('.ThongtinKS').html(data);
+            }
+        });
+    }
+
+
+    function ThemKS(id) {
+
+        $.ajax({
+            url: '/QLKhachDoan/ThemKS',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+
+                $('.dskhachsan').hide(500);
+                $('#ModalKS').show(500);
+                $('.ThongtinKS').html(data);
+            }
+        });
+
+    }
+
+    function LayDSKhachsan(id) {
+
+        $.ajax({
+            url: '/QLKhachDoan/LayDSKhachsan',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+                $('#tabksnd').html(data);
+            }
+        });
+    }
+
+</script>
+
+
