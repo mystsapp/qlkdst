@@ -230,6 +230,7 @@
           <Property Name="lylich" Type="nvarchar(max)" />
           <Property Name="trangthai" Type="bit" Nullable="false" />
           <Property Name="idtour" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="SgtCode" Type="varchar" MaxLength="17" />
         </EntityType>
         <EntityType Name="dmkhachhang">
           <Key>
@@ -1633,8 +1634,8 @@ warning 6002: The table/view 'qlkdtr.dbo.vie_usrkhucn' does not have a primary k
           <EntitySet Name="visa" EntityType="qlkdtrModel.visa" />
           <EntitySet Name="khachsan" EntityType="qlkdtrModel.khachsan" />
           <EntitySet Name="dmfile" EntityType="qlkdtrModel.dmfile" />
-          <EntitySet Name="dmhuongdan" EntityType="qlkdtrModel.dmhuongdan" />
           <EntitySet Name="tour" EntityType="qlkdtrModel.tour" />
+          <EntitySet Name="dmhuongdan" EntityType="qlkdtrModel.dmhuongdan" />
         </EntityContainer>
         <ComplexType Name="spLogin_Result">
           <Property Type="String" Name="userId" Nullable="false" MaxLength="5" />
@@ -2479,49 +2480,6 @@ warning 6002: The table/view 'qlkdtr.dbo.vie_usrkhucn' does not have a primary k
           <Property Name="ngaytao" Type="DateTime" Precision="3" />
           <Property Name="log_file" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="dmhuongdan">
-          <Key>
-            <PropertyRef Name="mahd" />
-          </Key>
-          <Property Name="mahd" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
-          <Property Name="tenhd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="phai" Type="Boolean" Nullable="false" />
-          <Property Name="ngaysinh" Type="DateTime" Precision="0" />
-          <Property Name="noisinh" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="socmnd" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="ngaycmnd" Type="DateTime" Precision="0" />
-          <Property Name="noicapcmnd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="dienthoaidd" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="dienthoainha" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="diachithuongtru" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
-          <Property Name="diachitamtru" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="honnhan" Type="Boolean" Nullable="false" />
-          <Property Name="chucdanh" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="sothehdv" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="hanthehdv" Type="DateTime" Precision="0" />
-          <Property Name="hochieu" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="hieuluchc" Type="DateTime" Precision="0" />
-          <Property Name="hanvisa" Type="DateTime" Precision="0" />
-          <Property Name="ghichuvisa" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="quoctich" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ngoaingu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="chinhanh" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
-          <Property Name="trinhdo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="truong1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="he1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="nganh1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="nam1" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="truong2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="he2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="nganh2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="nam2" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="tenthannhan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="dtquanhe" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="lylich" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="trangthai" Type="Boolean" Nullable="false" />
-          <Property Name="idtour" Type="Decimal" Precision="18" Scale="0" />
-        </EntityType>
         <EntityType Name="tour">
           <Key>
             <PropertyRef Name="idtour" />
@@ -2575,6 +2533,50 @@ warning 6002: The table/view 'qlkdtr.dbo.vie_usrkhucn' does not have a primary k
           <Property Name="nguoidaidien" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="doitacnuocngoai" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="ngayhuytour" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="dmhuongdan">
+          <Key>
+            <PropertyRef Name="mahd" />
+          </Key>
+          <Property Name="mahd" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="tenhd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="phai" Type="Boolean" Nullable="false" />
+          <Property Name="ngaysinh" Type="DateTime" Precision="0" />
+          <Property Name="noisinh" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="socmnd" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ngaycmnd" Type="DateTime" Precision="0" />
+          <Property Name="noicapcmnd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="dienthoaidd" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="dienthoainha" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="diachithuongtru" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="diachitamtru" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="honnhan" Type="Boolean" Nullable="false" />
+          <Property Name="chucdanh" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="sothehdv" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hanthehdv" Type="DateTime" Precision="0" />
+          <Property Name="hochieu" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="hieuluchc" Type="DateTime" Precision="0" />
+          <Property Name="hanvisa" Type="DateTime" Precision="0" />
+          <Property Name="ghichuvisa" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="quoctich" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ngoaingu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="chinhanh" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="trinhdo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="truong1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="he1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="nganh1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="nam1" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="truong2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="he2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="nganh2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="nam2" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="tenthannhan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="dtquanhe" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="lylich" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="trangthai" Type="Boolean" Nullable="false" />
+          <Property Name="idtour" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="SgtCode" Type="String" MaxLength="17" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3577,50 +3579,6 @@ warning 6002: The table/view 'qlkdtr.dbo.vie_usrkhucn' does not have a primary k
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="dmhuongdan">
-            <EntityTypeMapping TypeName="qlkdtrModel.dmhuongdan">
-              <MappingFragment StoreEntitySet="dmhuongdan">
-                <ScalarProperty Name="idtour" ColumnName="idtour" />
-                <ScalarProperty Name="trangthai" ColumnName="trangthai" />
-                <ScalarProperty Name="lylich" ColumnName="lylich" />
-                <ScalarProperty Name="dtquanhe" ColumnName="dtquanhe" />
-                <ScalarProperty Name="tenthannhan" ColumnName="tenthannhan" />
-                <ScalarProperty Name="nam2" ColumnName="nam2" />
-                <ScalarProperty Name="nganh2" ColumnName="nganh2" />
-                <ScalarProperty Name="he2" ColumnName="he2" />
-                <ScalarProperty Name="truong2" ColumnName="truong2" />
-                <ScalarProperty Name="nam1" ColumnName="nam1" />
-                <ScalarProperty Name="nganh1" ColumnName="nganh1" />
-                <ScalarProperty Name="he1" ColumnName="he1" />
-                <ScalarProperty Name="truong1" ColumnName="truong1" />
-                <ScalarProperty Name="trinhdo" ColumnName="trinhdo" />
-                <ScalarProperty Name="chinhanh" ColumnName="chinhanh" />
-                <ScalarProperty Name="ngoaingu" ColumnName="ngoaingu" />
-                <ScalarProperty Name="quoctich" ColumnName="quoctich" />
-                <ScalarProperty Name="ghichuvisa" ColumnName="ghichuvisa" />
-                <ScalarProperty Name="hanvisa" ColumnName="hanvisa" />
-                <ScalarProperty Name="hieuluchc" ColumnName="hieuluchc" />
-                <ScalarProperty Name="hochieu" ColumnName="hochieu" />
-                <ScalarProperty Name="hanthehdv" ColumnName="hanthehdv" />
-                <ScalarProperty Name="sothehdv" ColumnName="sothehdv" />
-                <ScalarProperty Name="chucdanh" ColumnName="chucdanh" />
-                <ScalarProperty Name="honnhan" ColumnName="honnhan" />
-                <ScalarProperty Name="diachitamtru" ColumnName="diachitamtru" />
-                <ScalarProperty Name="diachithuongtru" ColumnName="diachithuongtru" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="dienthoainha" ColumnName="dienthoainha" />
-                <ScalarProperty Name="dienthoaidd" ColumnName="dienthoaidd" />
-                <ScalarProperty Name="noicapcmnd" ColumnName="noicapcmnd" />
-                <ScalarProperty Name="ngaycmnd" ColumnName="ngaycmnd" />
-                <ScalarProperty Name="socmnd" ColumnName="socmnd" />
-                <ScalarProperty Name="noisinh" ColumnName="noisinh" />
-                <ScalarProperty Name="ngaysinh" ColumnName="ngaysinh" />
-                <ScalarProperty Name="phai" ColumnName="phai" />
-                <ScalarProperty Name="tenhd" ColumnName="tenhd" />
-                <ScalarProperty Name="mahd" ColumnName="mahd" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tour">
             <EntityTypeMapping TypeName="qlkdtrModel.tour">
               <MappingFragment StoreEntitySet="tour">
@@ -3673,6 +3631,51 @@ warning 6002: The table/view 'qlkdtr.dbo.vie_usrkhucn' does not have a primary k
                 <ScalarProperty Name="chudetour" ColumnName="chudetour" />
                 <ScalarProperty Name="sgtcode" ColumnName="sgtcode" />
                 <ScalarProperty Name="idtour" ColumnName="idtour" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dmhuongdan">
+            <EntityTypeMapping TypeName="qlkdtrModel.dmhuongdan">
+              <MappingFragment StoreEntitySet="dmhuongdan">
+                <ScalarProperty Name="SgtCode" ColumnName="SgtCode" />
+                <ScalarProperty Name="idtour" ColumnName="idtour" />
+                <ScalarProperty Name="trangthai" ColumnName="trangthai" />
+                <ScalarProperty Name="lylich" ColumnName="lylich" />
+                <ScalarProperty Name="dtquanhe" ColumnName="dtquanhe" />
+                <ScalarProperty Name="tenthannhan" ColumnName="tenthannhan" />
+                <ScalarProperty Name="nam2" ColumnName="nam2" />
+                <ScalarProperty Name="nganh2" ColumnName="nganh2" />
+                <ScalarProperty Name="he2" ColumnName="he2" />
+                <ScalarProperty Name="truong2" ColumnName="truong2" />
+                <ScalarProperty Name="nam1" ColumnName="nam1" />
+                <ScalarProperty Name="nganh1" ColumnName="nganh1" />
+                <ScalarProperty Name="he1" ColumnName="he1" />
+                <ScalarProperty Name="truong1" ColumnName="truong1" />
+                <ScalarProperty Name="trinhdo" ColumnName="trinhdo" />
+                <ScalarProperty Name="chinhanh" ColumnName="chinhanh" />
+                <ScalarProperty Name="ngoaingu" ColumnName="ngoaingu" />
+                <ScalarProperty Name="quoctich" ColumnName="quoctich" />
+                <ScalarProperty Name="ghichuvisa" ColumnName="ghichuvisa" />
+                <ScalarProperty Name="hanvisa" ColumnName="hanvisa" />
+                <ScalarProperty Name="hieuluchc" ColumnName="hieuluchc" />
+                <ScalarProperty Name="hochieu" ColumnName="hochieu" />
+                <ScalarProperty Name="hanthehdv" ColumnName="hanthehdv" />
+                <ScalarProperty Name="sothehdv" ColumnName="sothehdv" />
+                <ScalarProperty Name="chucdanh" ColumnName="chucdanh" />
+                <ScalarProperty Name="honnhan" ColumnName="honnhan" />
+                <ScalarProperty Name="diachitamtru" ColumnName="diachitamtru" />
+                <ScalarProperty Name="diachithuongtru" ColumnName="diachithuongtru" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="dienthoainha" ColumnName="dienthoainha" />
+                <ScalarProperty Name="dienthoaidd" ColumnName="dienthoaidd" />
+                <ScalarProperty Name="noicapcmnd" ColumnName="noicapcmnd" />
+                <ScalarProperty Name="ngaycmnd" ColumnName="ngaycmnd" />
+                <ScalarProperty Name="socmnd" ColumnName="socmnd" />
+                <ScalarProperty Name="noisinh" ColumnName="noisinh" />
+                <ScalarProperty Name="ngaysinh" ColumnName="ngaysinh" />
+                <ScalarProperty Name="phai" ColumnName="phai" />
+                <ScalarProperty Name="tenhd" ColumnName="tenhd" />
+                <ScalarProperty Name="mahd" ColumnName="mahd" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

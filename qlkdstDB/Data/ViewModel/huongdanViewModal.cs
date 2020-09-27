@@ -10,6 +10,7 @@ namespace qlkdstDB.Data.ViewModel
     public class huongdanViewModal
     {
         public string mahd { get; set; }
+        public string SgtCode { get; set; }
         public string tenhd { get; set; }
         public bool phai { get; set; }
         public Nullable<System.DateTime> ngaysinh { get; set; }

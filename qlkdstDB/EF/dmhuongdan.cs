@@ -52,5 +52,6 @@ namespace qlkdstDB.EF
         public string lylich { get; set; }
         public bool trangthai { get; set; }
         public Nullable<decimal> idtour { get; set; }
+        public string SgtCode { get; set; }
     }
 }

@@ -21,6 +21,7 @@
             <tr>
                 <th>Quản lý</th>
                 <th>Chi nhánh</th>
+                <th>SgtCode</th>
                 <th>Tên hướng dẫn</th>
                 <th>Phái</th>
                 <th>Ngày sinh</th>
@@ -44,6 +45,7 @@
                                 }
                             </td>
                             <td>@m.mahd</td>
+                            <td>@m.SgtCode</td>
                             <td>@m.tenhd</td>
                             <td>@Html.Raw(m.phai == true ? "Nam" : "Nữ")</td>
                             <td>@(m.ngaysinh.HasValue ? @m.ngaysinh.Value.ToString("dd/MM/yyyy") : "")</td>

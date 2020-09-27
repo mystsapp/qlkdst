@@ -246,6 +246,7 @@ namespace qlkdstDB.DAO
                     v.mahd = t.mahd;
                     v.idtour = t.idtour;
                     v.chinhanh = t.chinhanh;
+                    v.SgtCode = t.SgtCode;
                     v.tenhd = t.tenhd;
                     v.phai = t.phai;
                     v.ngaysinh = t.ngaysinh;

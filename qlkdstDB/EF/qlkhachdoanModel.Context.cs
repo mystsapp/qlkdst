@@ -75,8 +75,8 @@ namespace qlkdstDB.EF
         public virtual DbSet<visa> visa { get; set; }
         public virtual DbSet<khachsan> khachsan { get; set; }
         public virtual DbSet<dmfile> dmfile { get; set; }
-        public virtual DbSet<dmhuongdan> dmhuongdan { get; set; }
         public virtual DbSet<tour> tour { get; set; }
+        public virtual DbSet<dmhuongdan> dmhuongdan { get; set; }
     
         public virtual int spInsertUser(string userId, string username, string password, string fullName, string daily, string dienthoai, Nullable<bool> taotour, Nullable<bool> banve, Nullable<bool> suave, Nullable<bool> dongtour, Nullable<bool> dcdanhmuc, Nullable<bool> suatour, Nullable<bool> adminkl, Nullable<bool> adminkd, string email, string emailcc, string chinhanh, string bantour, string role, Nullable<bool> trangthai, string nguoitao)
         {

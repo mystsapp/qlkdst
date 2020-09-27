@@ -54,8 +54,8 @@
         <EntityTypeShape EntityType="qlkdtrModel.visa" Width="1.5" PointX="21.375" PointY="10.75" />
         <EntityTypeShape EntityType="qlkdtrModel.khachsan" Width="1.5" PointX="22.375" PointY="15.75" />
         <EntityTypeShape EntityType="qlkdtrModel.dmfile" Width="1.5" PointX="15.375" PointY="22.75" />
-        <EntityTypeShape EntityType="qlkdtrModel.dmhuongdan" Width="1.5" PointX="22.375" PointY="0.75" />
         <EntityTypeShape EntityType="qlkdtrModel.tour" Width="1.5" PointX="17.375" PointY="22.75" />
+        <EntityTypeShape EntityType="qlkdtrModel.dmhuongdan" Width="1.5" PointX="22.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

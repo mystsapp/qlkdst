@@ -2944,10 +2944,10 @@ namespace qlkdst.Controllers
             return PartialView(model);
         }
         [HttpPost]
-        public ActionResult ThemHD(huongdanViewModal modal)
+        public ActionResult ThemHD(huongdanViewModal modal, decimal idtour) 
         {
             var dao = new huongdanDAO();
-
+            var tour = db.tour.Find(idtour);
             if (ModelState.IsValid)
             {
                 try
@@ -2957,6 +2957,7 @@ namespace qlkdst.Controllers
                     v.mahd = dao.newCode();
                     v.idtour = modal.idtour;
                     v.chinhanh = modal.chinhanh;
+                    v.SgtCode = tour.sgtcode;
                     v.tenhd = modal.tenhd;
                     v.phai = modal.phai;
                     v.ngaysinh = modal.ngaysinh;

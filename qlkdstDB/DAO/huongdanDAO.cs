@@ -47,6 +47,7 @@ namespace qlkdstDB.DAO
                 v.idtour = t.idtour;
                 v.mahd = t.mahd;
                 v.chinhanh = t.chinhanh;
+                v.SgtCode = t.SgtCode;
                 v.tenhd = t.tenhd;
                 v.phai = t.phai;
                 v.ngaysinh = t.ngaysinh;
@@ -66,8 +67,12 @@ namespace qlkdstDB.DAO
 
             try
             {
-                var hd = db.dmhuongdan.OrderByDescending(x => x.mahd).Take(1).SingleOrDefault().mahd;
-                sRes = hd;
+                var hd = db.dmhuongdan;
+                if(hd.Count() == 0)
+                {
+                    return "";
+                }
+                sRes = hd.OrderByDescending(x => x.mahd).Take(1).SingleOrDefault().mahd;
                 return sRes;
 
             }
